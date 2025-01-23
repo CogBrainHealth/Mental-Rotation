@@ -20,16 +20,4 @@ public class TableGenerator : MonoBehaviour
     Table[,] table = new Table[3, 3];
 
     List<Table> objects = new List<Table> { };
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
