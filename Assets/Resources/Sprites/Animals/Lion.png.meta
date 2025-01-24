@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e5abec799f2a95a4fa7d749ab4da3f7f
+guid: 26a157d20394943b09d69c578b225a89
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4358472242703741127
-    second: skip_0
+      213: -1224384326437599908
+    second: Lion_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 512
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -122,17 +122,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: skip_0
+      name: Lion_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 262
-        height: 52
+        x: 80
+        y: 34
+        width: 359
+        height: 430
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 93f4e3266989383c0800000000000000
-      internalID: -4358472242703741127
+      spriteID: c55812231fc120fe0800000000000000
+      internalID: -1224384326437599908
       vertices: []
       indices: 
       edges: []
@@ -160,7 +173,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Lion_0: -1224384326437599908
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

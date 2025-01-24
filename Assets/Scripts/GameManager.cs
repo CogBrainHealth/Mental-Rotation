@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
             Start.SetActive(false);
             Game.SetActive(true);
             Over.SetActive(false);
-
-            
         }
     }
+
+
 }
