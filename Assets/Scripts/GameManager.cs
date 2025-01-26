@@ -82,4 +82,56 @@ public class GameManager : MonoBehaviour
     }
 
 
+<<<<<<< Updated upstream
+=======
+        Debug.Log("게임 종료");
+        displayResult();
+    }
+
+    //결과 점수 보여주기
+    public void StoreScore(StageScore ss)
+    {
+        stageScore.Add(ss);
+    }
+
+    private void displayResult()
+    {
+        string str = "";
+        int countCorrect = 0;
+
+        foreach (StageScore ss in stageScore)
+        {
+            string correct = "오답";
+            if (ss.correct)
+            {
+                countCorrect++;
+                correct = "정답";
+            }
+            str += ss.name-1 +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
+        }
+
+        result.text = str;
+        totalScore.text = "총 점수: " + countCorrect.ToString();
+        userInfo.text = "성별: " + userGender + " / " + "나이: " + userAge;
+    }
+}
+
+public class StageScore
+{
+    static int totalScore = 0;
+
+    public int name;
+    public float time;
+    public bool correct;
+
+    public StageScore(int n, float t, bool correct)
+    {
+        if(correct)
+            totalScore++;
+
+        this.name = n;
+        this.correct = correct;
+        this.time = t;
+    }
+>>>>>>> Stashed changes
 }

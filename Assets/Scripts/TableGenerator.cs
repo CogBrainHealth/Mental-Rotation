@@ -14,7 +14,6 @@ public class TableGenerator : MonoBehaviour
 
     public bool DecideNullable()
     {
-        // ...
         // 3칸짜리인 경우 조건문
         // ...
             // return true;
