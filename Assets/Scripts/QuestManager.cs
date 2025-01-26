@@ -59,7 +59,6 @@ public class QuestManager : MonoBehaviour
         {
             gm.GameOver();
         }
-
     }
 
     private void createStage()
@@ -119,6 +118,8 @@ public class QuestManager : MonoBehaviour
         Stage thisStage = pilotTableData[stageNum-1]; //파일럿 스테이지 추출. 인덱스라서 -1
 
         //문제 구성
+        answer = thisStage.answer;
+
         tg.PilotTableGenerate(tableEx, thisStage.exam);
         tg.PilotTableGenerate(table[0], thisStage.table1);
         tg.PilotTableGenerate(table[1], thisStage.table2);
@@ -156,7 +157,7 @@ public class Stage
     public int[] table2 { get; set; }
     public int[] table3 { get; set; }
 
-    int answer;
+    public int answer;
 
     public Stage(int a, int[] e, int[] t1, int[] t2, int[] t3)
     {
