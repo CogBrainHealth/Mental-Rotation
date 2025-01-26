@@ -80,7 +80,8 @@ public class TableGenerator : MonoBehaviour
         spritePool.RemoveAt(randomIndex);
     }
 
-    public void PilotTableGenerate(TableController table, int[] data)
+    //파일럿
+    public void PilotTableGenerate(TableController table, int[] data) 
     {
         if (data.Length != 4) return; //이상한 배열이 들어왔서요
 

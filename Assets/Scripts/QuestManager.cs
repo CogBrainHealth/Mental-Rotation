@@ -7,9 +7,7 @@ public class QuestManager : MonoBehaviour
     TableGenerator tg;
 
     public TableController tableEx;
-    public TableController table1;
-    public TableController table2;
-    public TableController table3;
+    public TableController[] table = new TableController[3];
 
     //Test Data
     public bool pilotFlag = true;
@@ -17,10 +15,11 @@ public class QuestManager : MonoBehaviour
     List<Stage> pilotTableData = new List<Stage>();
 
     //GameData
-    public int totalStageNum = 1;
-    private int thisStageNum = 0;
+    public int totalStageNum;
 
+    private int thisStageNum = 1; //스테이지 넘버만 1부터 시작합니다!
     private int answer = 0;
+    private float time = 0f;
 
     public static QuestManager Instance { get; private set; }
 
@@ -43,10 +42,15 @@ public class QuestManager : MonoBehaviour
         PilotDataSetting(); //문제 할당
     }
 
+    public void Update()
+    {
+        time += Time.deltaTime;
+    }
+
     //게임 세팅
     public void Game()
     {
-        if (thisStageNum < totalStageNum) //정해진 스테이지 수보다 적으면 문제 생성
+        if (thisStageNum <= totalStageNum) //정해진 스테이지 수보다 적으면 문제 생성
         {
             createStage();
             thisStageNum++;
@@ -61,19 +65,44 @@ public class QuestManager : MonoBehaviour
     private void createStage()
     {
         Debug.Log(thisStageNum + "번째 Stage 시작");
-    }
 
-    private void PilotDataSetting() 
-    {
-        Stage s1 = new Stage(1, new int[] { 0, 0, 0, 0 }, new int[] { 1, 1, 1, 1 }, new int[] { 2, 2, 2, 2 }, new int[] { 3, 3, 3, 3 });
+        //보기 테이블은 랜덤으로 구성
+        tg.TableGenerate(tableEx);
 
-        pilotTableData.Add(s1);
+        //정답 번호 선택
+        answer = Random.Range(0, 3);
+
+        //답안 테이블 구성
+        for (int i = 0; i < 3; i++)
+        {
+            if (answer == i) //정답 테이블의 경우 
+            {
+                //table[i] <=  tableEx의 회전 중 하나 선택
+            }
+            else //오답 테이블의 경우
+            {
+                do 
+                    tg.TableGenerate(table[i]);
+                while(false); // tableEx의 answer배열에 포함되는지 확인
+            }
+        }
+
+        time = 0f;
     }
 
     //파일럿 게임 세팅
+    private void PilotDataSetting() 
+    {
+        Stage s1 = new Stage(0, new int[] { 0, 0, 0, 0 }, new int[] { 1, 1, 1, 1 }, new int[] { 2, 2, 2, 2 }, new int[] { 3, 3, 3, 3 });
+
+        pilotTableData.Add(s1);
+
+        totalStageNum = pilotTableData.Count;
+    }
+
     public void pilotTest() //게임 시작 and 다음 게임
     {
-        if (thisStageNum < totalStageNum)
+        if (thisStageNum <= totalStageNum)
         {
             pilotStage(thisStageNum++);
         }
@@ -86,28 +115,35 @@ public class QuestManager : MonoBehaviour
     private void pilotStage(int stageNum) //이번 게임 세팅
     {
         Debug.Log(stageNum + "번째 스테이지 추출");
+        if (stageNum > pilotTableData.Count) return; //파일럿 스테이지 수 초과
+        Stage thisStage = pilotTableData[stageNum-1]; //파일럿 스테이지 추출. 인덱스라서 -1
 
-        Stage thisStage = pilotTableData[stageNum];
-
+        //문제 구성
         tg.PilotTableGenerate(tableEx, thisStage.exam);
-        tg.PilotTableGenerate(table1, thisStage.table1);
-        tg.PilotTableGenerate(table2, thisStage.table2);
-        tg.PilotTableGenerate(table3, thisStage.table3);
+        tg.PilotTableGenerate(table[0], thisStage.table1);
+        tg.PilotTableGenerate(table[1], thisStage.table2);
+        tg.PilotTableGenerate(table[2], thisStage.table3);
+
+        time = 0f;
     }
 
     //답안 선택
-
     public void choice(int i)
     {
+        bool correct;
+
         if (i == answer)
         {
             Debug.Log("정답");
+            correct = true;
         }
         else
         {
             Debug.Log("오답");
+            correct=false;
         }
 
+        gm.StoreScore(new StageScore(thisStageNum, time, correct));
         pilotTest();
     }
 }
