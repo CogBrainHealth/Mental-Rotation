@@ -7,21 +7,22 @@ public class GameManager : MonoBehaviour
     public Animator information;
 
     //Scene UI
-    public GameObject Start;
-    public GameObject Game;
-    public GameObject Over;
+    public GameObject start;
+    public GameObject game;
+    public GameObject over;
 
     //Pilot Information
-    public GameObject inpuWarning;
+    public GameObject inputWarning;
 
     public TextMeshProUGUI inputAge;
 
     string userAge;
     string userGender = "여성"; //default
 
+    //Game
     public static GameManager Instance { get; private set; }
 
-    public void Awake()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -30,7 +31,10 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(this); 
+    }
 
+    void Start()
+    {
         GameReady();
     }
 
@@ -56,7 +60,7 @@ public class GameManager : MonoBehaviour
             if (c >= '0' && c <= '9' || "\0\n \u200B\t".Contains(c))
                 continue;
 
-            inpuWarning.SetActive(true);
+            inputWarning.SetActive(true);
             return false;
         }
 
@@ -66,20 +70,27 @@ public class GameManager : MonoBehaviour
 
     public void GameReady()
     {
-        Start.SetActive(true);
-        Game.SetActive(false);
-        Over.SetActive(false);
+        start.SetActive(true);
+        game.SetActive(false);
+        over.SetActive(false);
     }
 
     public void GameStart()
     {
-        if (SetInfo())
+        if (SetInfo()) //나이, 성별 입력 정보가 적절하면
         {
-            Start.SetActive(false);
-            Game.SetActive(true);
-            Over.SetActive(false);
+            start.SetActive(false);
+            game.SetActive(true);
+            over.SetActive(false);
         }
     }
 
+    public void GameOver()
+    {
+        start.SetActive(false);
+        game.SetActive(false);
+        over.SetActive(true);
 
+        Debug.Log("게임 종료");
+    }
 }

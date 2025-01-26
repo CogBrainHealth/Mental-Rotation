@@ -616,6 +616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 196625336}
   - component: {fileID: 196625335}
+  - component: {fileID: 196625337}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -636,10 +637,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   information: {fileID: 1247676022}
-  Start: {fileID: 369437640}
-  Game: {fileID: 305146433}
-  Over: {fileID: 1476392805}
-  inpuWarning: {fileID: 865133587}
+  start: {fileID: 369437640}
+  game: {fileID: 305146433}
+  over: {fileID: 1476392805}
+  inputWarning: {fileID: 865133587}
   inputAge: {fileID: 613302498}
 --- !u!4 &196625336
 Transform:
@@ -656,6 +657,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &196625337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196625334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345f700b7a2ab3e4eb2191a7bccfab6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tableEx: {fileID: 1105124647}
+  table1: {fileID: 1745543995}
+  table2: {fileID: 767926713}
+  table3: {fileID: 2037968694}
+  pilotFlag: 1
+  totalStageNum: 10
 --- !u!1 &207964968
 GameObject:
   m_ObjectHideFlags: 0
@@ -2325,7 +2344,19 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 196625337}
+        m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
+        m_MethodName: Game
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &551780108
 MonoBehaviour:
@@ -3380,6 +3411,7 @@ GameObject:
   - component: {fileID: 767926711}
   - component: {fileID: 767926712}
   - component: {fileID: 767926713}
+  - component: {fileID: 767926714}
   m_Layer: 0
   m_Name: Choise_2
   m_TagString: Untagged
@@ -3478,13 +3510,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3785ae55a16433bbc29a02435b01f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  table: {fileID: 767926710}
   East: {fileID: 0}
   West: {fileID: 0}
   Sorth: {fileID: 0}
   North: {fileID: 0}
-  tableGenerator: {fileID: 882350852}
-  gameManager: {fileID: 196625335}
+  nullAble: 0
+  sameTable: []
+--- !u!114 &767926714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767926710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 196625337}
+        m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
+        m_MethodName: choice
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &847577251
 GameObject:
   m_ObjectHideFlags: 0
@@ -3839,6 +3926,18 @@ MonoBehaviour:
       - m_Target: {fileID: 196625335}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: GameStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 196625337}
+        m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
+        m_MethodName: pilotTest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4380,13 +4479,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3785ae55a16433bbc29a02435b01f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  table: {fileID: 1105124644}
   East: {fileID: 0}
   West: {fileID: 0}
   Sorth: {fileID: 0}
   North: {fileID: 0}
-  tableGenerator: {fileID: 882350852}
-  gameManager: {fileID: 196625335}
+  nullAble: 0
+  sameTable: []
 --- !u!1 &1230501624
 GameObject:
   m_ObjectHideFlags: 0
@@ -6059,6 +6157,9 @@ GameObject:
   - component: {fileID: 1745543993}
   - component: {fileID: 1745543994}
   - component: {fileID: 1745543995}
+  - component: {fileID: 1745543996}
+  - component: {fileID: 1745543998}
+  - component: {fileID: 1745543997}
   m_Layer: 0
   m_Name: Choise_1
   m_TagString: Untagged
@@ -6066,16 +6167,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1745543993
-Transform:
+--- !u!224 &1745543993
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745543992}
-  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3, y: -3.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.21, y: 0.21, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6090,6 +6190,11 @@ Transform:
   - {fileID: 1101738437}
   m_Father: {fileID: 305146434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.3, y: -3.3}
+  m_SizeDelta: {x: 5.12, y: 5.12}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1745543994
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6157,13 +6262,106 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3785ae55a16433bbc29a02435b01f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  table: {fileID: 1745543992}
   East: {fileID: 0}
   West: {fileID: 0}
   Sorth: {fileID: 0}
   North: {fileID: 0}
-  tableGenerator: {fileID: 882350852}
-  gameManager: {fileID: 196625335}
+  nullAble: 0
+  sameTable: []
+--- !u!114 &1745543996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745543992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 196625337}
+        m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
+        m_MethodName: choice
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1745543997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745543992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -2163346815130007183, guid: 785f68d7ce45040a6a5d604928097147, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1745543998
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745543992}
+  m_CullTransparentMesh: 1
 --- !u!1 &1795140395
 GameObject:
   m_ObjectHideFlags: 0
@@ -7126,6 +7324,7 @@ GameObject:
   - component: {fileID: 2037968692}
   - component: {fileID: 2037968693}
   - component: {fileID: 2037968694}
+  - component: {fileID: 2037968695}
   m_Layer: 0
   m_Name: Choise_3
   m_TagString: Untagged
@@ -7224,13 +7423,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3785ae55a16433bbc29a02435b01f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  table: {fileID: 2037968691}
   East: {fileID: 0}
   West: {fileID: 0}
   Sorth: {fileID: 0}
   North: {fileID: 0}
-  tableGenerator: {fileID: 882350852}
-  gameManager: {fileID: 196625335}
+  nullAble: 0
+  sameTable: []
+--- !u!114 &2037968695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037968691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 196625337}
+        m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
+        m_MethodName: choice
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2091658058
 GameObject:
   m_ObjectHideFlags: 0
