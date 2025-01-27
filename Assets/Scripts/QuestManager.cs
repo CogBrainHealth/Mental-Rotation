@@ -15,8 +15,8 @@ public class QuestManager : MonoBehaviour
 
     //TestData
     public bool pilotFlag = true;
-    public int[] pilotStageType = { 1, 2, 3, 4, 5, 6, 7, 8 }; // stageType ??
-    List<int> shuffledStageTypes = new List<int>(); // Type ?? ?? ?? ?? 
+    public int[] pilotStageType = { 1, 2, 3, 4, 5, 6, 7, 8 }; // stageType
+    List<int> shuffledStageTypes = new List<int>(); // Random stageType
 
     //List<Stage> pilotTableData = new List<Stage>();
 
@@ -24,7 +24,7 @@ public class QuestManager : MonoBehaviour
     public int totalStageNum;
     public TextMeshProUGUI stageNumber; // StageNum UI
 
-    private int thisStageNum = 1; //???? ??? 1?? ??
+    private int thisStageNum = 1; //Start at 1 stage
     private int answer = 0;
     private float time = 0f;
 
@@ -46,7 +46,7 @@ public class QuestManager : MonoBehaviour
         gm = GameManager.Instance;
         tg = TableGenerator.Instance;
 
-        PilotDataSetting(); //?? ??
+        PilotDataSetting(); // Allocate problem
     }
 
     public void Update()
@@ -73,14 +73,26 @@ public class QuestManager : MonoBehaviour
         Debug.Log($"stage {thisStageNum} start");
         // stageNumber.text = $"{thisStageNum-1} / {totalStageNum} ";
 
-        //?? ???? ???? ??
+        //보기 테이블은 랜덤으로 구성
         tg.TableGenerate(tableEx);
 
-        //?? ?? ??
+        //정답 번호 선택 
         answer = Random.Range(0, 3);
 
-        //?? ??? ??
-        
+        //답안 테이블 구성
+        for (int i = 0; i < 3; i++)
+        {
+            if (answer == i) //정답 테이블의 경우 
+            {
+                //table[i] <=  tableEx의 회전 중 하나 선택
+            }
+            else //오답 테이블의 경우
+            {
+                do
+                    tg.TableGenerate(table[i]);
+                while (false); // tableEx의 answer배열에 포함되는지 확인
+            }
+        }
 
         time = 0f;
     }
@@ -94,7 +106,7 @@ public class QuestManager : MonoBehaviour
 
         totalStageNum = 8;
 
-        // stageType ??
+        // shuffle stageType
         List<int> stageTypeList = new List<int>(pilotStageType);
 
         while (stageTypeList.Count > 0)
@@ -106,7 +118,8 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    public void pilotTest() //?? ?? and ?? ??
+    // Game Start and Next Game
+    public void pilotTest()
     {
         if (thisStageNum <= totalStageNum)
         {
@@ -130,17 +143,18 @@ public class QuestManager : MonoBehaviour
         //?? ??
         //answer = thisStage.answer;
 
-        // ?? ??? ???? ?? ??
+        // Delete existed cloned object
         foreach (GameObject obj in clonedObjects)
         {
             Destroy(obj);
         }
         clonedObjects.Clear();
 
+        // stageNumber UI
         stageNumber.text = $"{thisStageNum - 1} / {totalStageNum} ";
 
         // select stageType
-        int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++); ??? ????? 2~9? ??? ?? 
+        int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++); 2~9 -> 1~8
         Debug.Log($"stageType: {stageType}");
         tg.TableGeneratePilot(tableEx, stageType);
 
@@ -148,14 +162,14 @@ public class QuestManager : MonoBehaviour
         TableController[] answerArray = new TableController[3];
         for (int i = 0; i < 3; i++)
         {
-            // RotateEx? ???? ??
+            //generate answer array
             TableController rotatedTable = Instantiate(tableEx, tableEx.transform.parent);
-            rotatedTable.RotateTable(90 * (i+1)); // 90?? ??
+            rotatedTable.RotateTable(90 * (i+1)); // rotation 90, 180, 270
             rotatedTable.transform.position = new Vector3(-5, 1.2f * i, 0);
             rotatedTable.transform.localScale = new Vector3(0.21f, 0.21f, 0);
             answerArray[i] = rotatedTable;
 
-            // ??? ??? ???? ??
+            // add in cloned object list
             clonedObjects.Add(rotatedTable.gameObject);
         }
 
@@ -163,25 +177,25 @@ public class QuestManager : MonoBehaviour
         answer = Random.Range(0, 3);
         Debug.Log($"answer: {answer}");
 
-        //?? ??? ??
+        //generate choice tables
         for (int i = 0; i < 3; i++)
         {
-            if (i == answer) //?? ???? ?? 
+            if (i == answer) // answer
             {
                 Debug.Log("Generate Correct Table");
 
-                // ?? ?? ??
+                // find answer rotation degree
                 int correctAnswerIndex = tg.RotateAngle(stageType);
                 TableController answerTable;
                 if (correctAnswerIndex >= 0 && correctAnswerIndex < answerArray.Length)
                 {
                     answerTable = Instantiate(answerArray[correctAnswerIndex], answerArray[correctAnswerIndex].transform.parent);
 
-                    // ??? ??? ?? ??? ??
+                    // change position and scale
                     answerTable.transform.position = new Vector3(-1.3f+(1.3f*i), -3.3f, 0);
                     answerTable.transform.localScale = new Vector3(0.21f, 0.21f, 0);
 
-                    // ??? ??? ???? ??
+                    // add in cloned object list
                     clonedObjects.Add(answerTable.gameObject);
                 }
                 else
@@ -189,7 +203,7 @@ public class QuestManager : MonoBehaviour
                     Debug.LogError($"Invalid correctAnswerIndex: {correctAnswerIndex}");
                 }
             }
-            else //?? ???? ??
+            else //incorrect answer
             {
                 do
                 {
@@ -197,7 +211,7 @@ public class QuestManager : MonoBehaviour
                     table[i].gameObject.SetActive(true);
                     tg.TableGeneratePilot(table[i], stageType);
                 }
-                while (table[i].CompareTable()); // tableEx? answerArray? ????? ??
+                while (table[i].CompareTable()); // if it is in answerArray
             }
         }
 
