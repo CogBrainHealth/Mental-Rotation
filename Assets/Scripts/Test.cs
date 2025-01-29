@@ -7,9 +7,9 @@ public class Test : MonoBehaviour
     public TableController wrongTable;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        Debug.Log(mainTable.CompareTable(rightTable));
-        Debug.Log(mainTable.CompareTable(wrongTable));
-    }
+    //void Start()
+    //{
+    //    Debug.Log(mainTable.CompareTable(rightTable));
+    //    Debug.Log(mainTable.CompareTable(wrongTable));
+    //}
 }

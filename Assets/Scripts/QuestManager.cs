@@ -178,7 +178,7 @@ public class QuestManager : MonoBehaviour
         int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++); 2~9 -> 1~8
         tg.TableGeneratePilot(tableEx, stageType);
 
-        //Debug.Log($"stageType: {stageType}");
+        Debug.Log($"stageType: {stageType}");
 
         // Rotation Table of Ex (Answer List)
         TableController[] answerArray = new TableController[3];

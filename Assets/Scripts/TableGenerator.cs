@@ -127,7 +127,6 @@ public class TableGenerator : MonoBehaviour
                 Debug.LogError($"알 수 없는 문제 유형: {stageType}");
                 return;
         }
-        //Debug.Log("도형 배치");
         //Debug.Log($"{stageType}");
         AssignPilotSprite(table.North, selectedSprites, stageType);
         AssignPilotSprite(table.South, selectedSprites, stageType);
@@ -137,49 +136,49 @@ public class TableGenerator : MonoBehaviour
 
     public void AssignPilotSprite(GameObject circle, List<Sprite> spritePool, int stageType)
     {
-        if (spritePool.Count == 0) return;
-
         SpriteRenderer renderer = circle.GetComponent<SpriteRenderer>();
 
         // 각 문항 조건에 따른 도형 배치
-        if (stageType < 3)
+        if (stageType < 3) // 3-null
         {
-            if (spriteUsage[0] < 3) // 같은 도형 3번 배치 덜 끝났을 때
+            if (spriteUsage[0] < 3) // 같은 도형 3번 배치 덜 끝났을 때 -> 둘 중 랜덤
             {
+                //null
                 if (!nullAssignment && Random.Range(0, 2) == 0) // 50% 확률로 null 배치 
                 {
                     renderer.sprite = null;
                     nullAssignment = true;
                     return;
                 }
-
-                renderer.sprite = spritePool[0];
-                spriteUsage[0]++;
-                return;
+                else //sprite 0
+                {
+                    renderer.sprite = spritePool[0];
+                    spriteUsage[0]++;
+                    return;
+                }
             }
 
-            // 같은 도형 3번 배치 끝난 경우 남은 건 무조건 null 배치
+            // 같은 도형 3번 배치 끝난 경우 -> null
             renderer.sprite = null;
             nullAssignment = true;
             return;
         }
-
-        else if (stageType < 6)
+        else if (stageType < 6) // 2-1-null
         {
-            int selectedIndex;
+            //int selectedIndex;
 
             if (spriteUsage[0] < 2)
             {
                 if (spriteUsage[1] < 2) // 같은 도형 2번 배치 덜 끝났을 떄
                 {
-                    if (!nullAssignment && Random.Range(0, 3) == 0)
+                    if (!nullAssignment && Random.Range(0, 3) == 0) //null
                     {
                         nullAssignment = true;
                         renderer.sprite = null;
                         return;
                     }
 
-                    selectedIndex = Random.Range(0, 2); // [0], [1] 중 랜덤 배치
+                    int selectedIndex = Random.Range(0, 2); // [0], [1] 중 랜덤 배치
                     renderer.sprite = spritePool[selectedIndex];
                     spriteUsage[selectedIndex]++;
                     return;
@@ -188,20 +187,19 @@ public class TableGenerator : MonoBehaviour
                 {
                     if (spriteUsage[0] < 1) // [0]을 한 번도 배치하지 않은 경우
                     {
-                        if (!nullAssignment && Random.Range(0, 2) == 0)
+                        if (!nullAssignment && Random.Range(0, 2) == 0) //null
                         {
                             nullAssignment = true;
                             renderer.sprite = null;
                             return;
                         }
 
-                        // [0]: 1번 [1]: 2번 배치
-                        renderer.sprite = spritePool[0]; // [0]으로 배치 
+                        renderer.sprite = spritePool[0]; // [0] 배치 
                         spriteUsage[0]++;
                         return;
                     }
 
-                    // 같은 도형 2, 다른 도형 1개 배치 완료한 경우 무조건 null
+                    // 같은 도형 2, 다른 도형 1개 배치 -> null 배치
                     nullAssignment = true;
                     renderer.sprite = null;
                     return;
@@ -211,32 +209,30 @@ public class TableGenerator : MonoBehaviour
             {
                 if (spriteUsage[1] < 1) // [1]을 한 번도 배치하지 않은 경우
                 {
-                    if (!nullAssignment && Random.Range(0, 2) == 0)
+                    if (!nullAssignment && Random.Range(0, 2) == 0) //null
                     {
                         nullAssignment = true;
                         renderer.sprite = null;
                         return;
                     }
 
-                    // [0]: 2번 [1]: 1번 배치
-                    renderer.sprite = spritePool[1]; // [1]로 배치
+                    renderer.sprite = spritePool[1]; // [1] 배치
                     spriteUsage[1]++;
                     return;
                 }
 
-                // 같은 도형 2, 다른 도형 1개 배치 완료한 경우 무조건 null
+                // 같은 도형 2, 다른 도형 1개 배치 -> null
                 nullAssignment = true;
                 renderer.sprite = null;
                 return;
             }
         }
-
-        else
+        else 
         {
             // null과 서로 다른 도형 3개 배치
-            if (spritePool[0] != null) // 서로 다른 도형 3개 배치가 안 끝난 경우
+            if(spritePool.Count != 0)
             {
-                if (!nullAssignment && Random.Range(0, 4) == 0)
+                if (!nullAssignment && Random.Range(0, 4) == 0) //null
                 {
                     nullAssignment = true;
                     renderer.sprite = null;
