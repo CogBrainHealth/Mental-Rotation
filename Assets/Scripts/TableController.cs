@@ -38,13 +38,14 @@ public class TableController : MonoBehaviour
         //}
     }
 
-    public void RotateTable()
+    public void RotateTable(int rotationAngle)
     {
-
+        table.transform.Rotate(0, 0, rotationAngle);
     }
 
-    public void CompareTable()
+    public bool CompareTable()
     {
-
+        // 비교 메소드
+        return false;
     }
 }
