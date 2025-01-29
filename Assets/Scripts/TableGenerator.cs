@@ -29,7 +29,7 @@ public class TableGenerator : MonoBehaviour
         animalSprites = Resources.LoadAll<Sprite>("Sprites/Animals");
 
         // 파일럿 용 Unity 내 기본 제공 도형 스프라이트 로드 
-        shapeSprites = Resources.LoadAll<Sprite>("Sprites/Shapes");
+        shapeSprites = Resources.LoadAll<Sprite>("Sprites/Color");
     }
 
     //public bool DecideNullable()
@@ -95,12 +95,12 @@ public class TableGenerator : MonoBehaviour
         // 도형 스프라이트 랜덤 선택을 위한 배열 복사
         List<Sprite> selectedSprites = new List<Sprite>(); // 도형 배치를 위한 임시 배열
 
-        List<Color> colorList = new List<Color>
-        {
-            Color.red,     // 빨간색
-            Color.green,   // 초록색
-            Color.blue     // 파란색
-        };
+        //List<Color> colorList = new List<Color>
+        //{
+        //    Color.red,     // 빨간색
+        //    Color.green,   // 초록색
+        //    Color.blue     // 파란색
+        //};
 
         nullAssignment = false;
 
@@ -296,50 +296,53 @@ public class TableGenerator : MonoBehaviour
                 return -1;
         }
 
-        //public void PilotTableGenerate(TableController table) 
-        //{
-        //    List<Sprite> pilotTempSprites = new List<Sprite>(sha); // 도형 배치를 위한 임시 배열
+        /*---------------------------각 셀 직접 세팅(Direct Setting for Each Cell) 
+        public void PilotTableGenerate(TableController table)
+        {
+            List<Sprite> pilotTempSprites = new List<Sprite>(sha); // 도형 배치를 위한 임시 배열
 
-        //    Debug.Log("도형 랜덤 배치");
-        //    AssignSprite(table.North, pilotTempSprites);
-        //    AssignSprite(table.Sorth, pilotTempSprites);
-        //    AssignSprite(table.East, pilotTempSprites);
-        //    AssignSprite(table.West, pilotTempSprites);
-        //}
+            Debug.Log("도형 랜덤 배치");
+            AssignSprite(table.North, pilotTempSprites);
+            AssignSprite(table.Sorth, pilotTempSprites);
+            AssignSprite(table.East, pilotTempSprites);
+            AssignSprite(table.West, pilotTempSprites);
+        }
 
-        //private void AssignSprite(GameObject circle, int spriteIndex)
-        //{
-        ////스프라이트 선택
-        //if (spriteIndex >= animalSprites.Length)
-        //{
-        //    Debug.Log("추가되지 않은 동물입니다.");
-        //    return;
-        //}else if (spriteIndex == -1)
-        //{
-        //    Debug.Log("null: 빈칸입니다");
-        //    return;
-        //}
+        private void AssignSprite(GameObject circle, int spriteIndex)
+        {
+            //스프라이트 선택
+            if (spriteIndex >= animalSprites.Length)
+            {
+                Debug.Log("추가되지 않은 동물입니다.");
+                return;
+            }
+            else if (spriteIndex == -1)
+            {
+                Debug.Log("null: 빈칸입니다");
+                return;
+            }
 
-        ////서클에 스프라이트 적용
-        //Sprite selectedSprite = animalSprites[spriteIndex];
+            //서클에 스프라이트 적용
+            Sprite selectedSprite = animalSprites[spriteIndex];
 
-        //var renderer = circle.GetComponent<SpriteRenderer>();
-        //if (renderer == null)
-        //{
-        //    renderer = circle.AddComponent<SpriteRenderer>();
-        //}
+            var renderer = circle.GetComponent<SpriteRenderer>();
+            if (renderer == null)
+            {
+                renderer = circle.AddComponent<SpriteRenderer>();
+            }
 
-        //renderer.sprite = selectedSprite;
+            renderer.sprite = selectedSprite;
 
-        ////동물이 중앙을 바라보도록 sprite를 회전
-        //if (circle.name == "Circle_E")
-        //    circle.transform.rotation = Quaternion.Euler(0, 0, -90); // East: 시계방향 90도
+            //동물이 중앙을 바라보도록 sprite를 회전
+            if (circle.name == "Circle_E")
+                circle.transform.rotation = Quaternion.Euler(0, 0, -90); // East: 시계방향 90도
 
-        //else if (circle.name == "Circle_W")
-        //    circle.transform.rotation = Quaternion.Euler(0, 0, 90); // West: 반시계방향 90도
+            else if (circle.name == "Circle_W")
+                circle.transform.rotation = Quaternion.Euler(0, 0, 90); // West: 반시계방향 90도
 
-        //else if (circle.name == "Circle_S")
-        //    circle.transform.rotation = Quaternion.Euler(0, 0, 180); // South: 시계방향 180도
-        //}
+            else if (circle.name == "Circle_S")
+                circle.transform.rotation = Quaternion.Euler(0, 0, 180); // South: 시계방향 180도
+        }
+        */
     }
 }

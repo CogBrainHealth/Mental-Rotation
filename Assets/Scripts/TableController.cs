@@ -29,18 +29,13 @@ public class TableController : MonoBehaviour
         West = table.transform.Find("Circle_W").gameObject;
         Sorth = table.transform.Find("Circle_S").gameObject;
         North = table.transform.Find("Circle_N").gameObject;
-
-        //Generator 테이블 생성 테스트
-        //if (table.name == "ExampleTable")
-        //{
-        //    Debug.Log("보기 생성");
-        //    tg.TableGenerate(this);
-        //}
     }
 
     public void RotateTable(int rotationAngle)
     {
-        table.transform.Rotate(0, 0, rotationAngle);
+        table.transform.Rotate(0, 0, 90 * (rotationAngle+1));
+        table.transform.position = new Vector3(-5, 1.2f * rotationAngle, 0); //it was side
+        table.transform.localScale = new Vector3(0.21f, 0.21f, 0);  //it was side at small
     }
 
     public bool CompareTable()

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject game;
     public GameObject over;
 
-    //Pilot Information
+    //-------------Pilot Information
     //input
     public GameObject inputWarning;
 
