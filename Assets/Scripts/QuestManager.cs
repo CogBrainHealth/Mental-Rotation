@@ -73,13 +73,33 @@ public class QuestManager : MonoBehaviour
     //Game Setting - 미완(Uncomplete)
     private void createStage()
     {
+        // Clean existed cloned object
+        foreach (GameObject obj in clonedObjects)
+        {
+            Destroy(obj);
+        }
+        clonedObjects.Clear();
+
         //stageNumber UI
         stageNumber.text = $"{thisStageNum-1} / {totalStageNum} ";
 
-        //보기 테이블은 랜덤으로 구성
+        //create Ex Table
         tg.TableGenerate(tableEx);
 
-        //정답 번호 선택 
+        // Rotation Table of Ex (Answer List)
+        TableController[] answerArray = new TableController[3];
+        for (int i = 0; i < 3; i++) // rotation 90, 180, 270
+        {
+            //generate answer array
+            TableController rotatedTable = Instantiate(tableEx, tableEx.transform.parent);
+            rotatedTable.RotateTable(i);
+            answerArray[i] = rotatedTable;
+
+            // add in cloned object list
+            clonedObjects.Add(rotatedTable.gameObject);
+        }
+
+        //select correct answer number
         answer = Random.Range(0, 3);
 
         //답안 테이블 구성
@@ -87,13 +107,17 @@ public class QuestManager : MonoBehaviour
         {
             if (answer == i) //정답 테이블의 경우 
             {
-                //table[i] <=  tableEx의 회전 중 하나 선택
+                TableController answerTable = answerArray[Random.Range(0, 3)];
+                answerTable.transform.position = new Vector3(-1.3f + (1.3f * i), -3.3f, 0);
             }
             else //오답 테이블의 경우
             {
+                table[i].gameObject.SetActive(true);
                 do
+                {
                     tg.TableGenerate(table[i]);
-                while (false); // tableEx의 answer배열에 포함되는지 확인
+                }
+                while (table[i].CompareTable(tableEx)); // if it is in answerArray
             }
         }
 
@@ -154,7 +178,7 @@ public class QuestManager : MonoBehaviour
         int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++); 2~9 -> 1~8
         tg.TableGeneratePilot(tableEx, stageType);
 
-        Debug.Log($"stageType: {stageType}");
+        //Debug.Log($"stageType: {stageType}");
 
         // Rotation Table of Ex (Answer List)
         TableController[] answerArray = new TableController[3];
@@ -205,24 +229,16 @@ public class QuestManager : MonoBehaviour
             }
             else //incorrect answer
             {
+                table[i].gameObject.SetActive(true);
                 do
                 {
-                    //Debug.Log("Generate Incorrect Table");
-                    table[i].gameObject.SetActive(true);
                     tg.TableGeneratePilot(table[i], stageType);
-
                 }
-                while (table[i].CompareTable()); // if it is in answerArray
+                while (table[i].CompareTable(tableEx)); // is it in answerArray
             }
         }
 
         time = 0f;
-
-        // init answerArray
-        for (int i = 0; i < 3; i++)
-        {
-            answerArray[i] = null;
-        }
     }
 
     //답안 선택
