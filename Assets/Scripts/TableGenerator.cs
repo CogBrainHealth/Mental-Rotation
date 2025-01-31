@@ -29,19 +29,8 @@ public class TableGenerator : MonoBehaviour
         animalSprites = Resources.LoadAll<Sprite>("Sprites/Animals");
 
         // 파일럿 용 Unity 내 기본 제공 도형 스프라이트 로드 
-        shapeSprites = Resources.LoadAll<Sprite>("Sprites/Shapes");
+        shapeSprites = Resources.LoadAll<Sprite>("Sprites/Color");
     }
-
-    //public bool DecideNullable()
-    //{
-    //    // ...
-    //    // 3칸짜리인 경우 조건문
-    //    // ...
-    //        // return true;
-
-    //    // 4칸짜리
-    //    return false;
-    //}
 
     //--------------------NotPilot--------------------
     public void TableGenerate(TableController table) // 테이블 세팅
@@ -53,7 +42,7 @@ public class TableGenerator : MonoBehaviour
         // 테이블의 방향별 Circle에 랜덤 스프라이트 배치
         Debug.Log("동물랜덤배치");
         AssignRandomSprite(table.North, tempSprites);
-        AssignRandomSprite(table.Sorth, tempSprites);
+        AssignRandomSprite(table.South, tempSprites);
         AssignRandomSprite(table.East, tempSprites);
         AssignRandomSprite(table.West, tempSprites);
     }
@@ -95,16 +84,9 @@ public class TableGenerator : MonoBehaviour
         // 도형 스프라이트 랜덤 선택을 위한 배열 복사
         List<Sprite> selectedSprites = new List<Sprite>(); // 도형 배치를 위한 임시 배열
 
-        List<Color> colorList = new List<Color>
-        {
-            Color.red,     // 빨간색
-            Color.green,   // 초록색
-            Color.blue     // 파란색
-        };
-
         nullAssignment = false;
 
-        // Pilot 문제 구성 (8문항)
+        // Pilot 문제 데이터 구성 (8문항)
         switch (stageType)
         {
             case 1: // 같은 도형 3개와 Null (90도)
@@ -120,7 +102,7 @@ public class TableGenerator : MonoBehaviour
                 spriteUsage = new int[2] { 0, 0 }; // 사용 여부 체크
                 selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
                 selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
-                while (selectedSprites[0] == selectedSprites[1])
+                while (selectedSprites[0] == selectedSprites[1]) //서로 다른 sprite로 세팅
                 {
                     selectedSprites[1] = shapeSprites[Random.Range(0, shapeSprites.Length)];
                 }
@@ -130,7 +112,7 @@ public class TableGenerator : MonoBehaviour
             case 6: // 모두 다른 도형 (90도)
             case 7: // 모두 다른 도형 (180도)
             case 8: // 모두 다른 도형 (270도)
-                while (selectedSprites.Count < 3)
+                while (selectedSprites.Count < 3) //서로 다른 sprite로 세팅
                 {
                     Sprite randomShape = shapeSprites[Random.Range(0, shapeSprites.Length)];
                     if (!selectedSprites.Contains(randomShape))
@@ -145,59 +127,58 @@ public class TableGenerator : MonoBehaviour
                 Debug.LogError($"알 수 없는 문제 유형: {stageType}");
                 return;
         }
-        Debug.Log("도형 배치");
         //Debug.Log($"{stageType}");
         AssignPilotSprite(table.North, selectedSprites, stageType);
-        AssignPilotSprite(table.Sorth, selectedSprites, stageType);
+        AssignPilotSprite(table.South, selectedSprites, stageType);
         AssignPilotSprite(table.East, selectedSprites, stageType);
         AssignPilotSprite(table.West, selectedSprites, stageType);
     }
 
     public void AssignPilotSprite(GameObject circle, List<Sprite> spritePool, int stageType)
     {
-        if (spritePool.Count == 0) return;
-
         SpriteRenderer renderer = circle.GetComponent<SpriteRenderer>();
 
         // 각 문항 조건에 따른 도형 배치
-        if (stageType < 3)
+        if (stageType < 3) // 3-null
         {
-            if (spriteUsage[0] < 3) // 같은 도형 3번 배치 덜 끝났을 때
+            if (spriteUsage[0] < 3) // 같은 도형 3번 배치 덜 끝났을 때 -> 둘 중 랜덤
             {
+                //null
                 if (!nullAssignment && Random.Range(0, 2) == 0) // 50% 확률로 null 배치 
                 {
                     renderer.sprite = null;
                     nullAssignment = true;
                     return;
                 }
-
-                renderer.sprite = spritePool[0];
-                spriteUsage[0]++;
-                return;
+                else //sprite 0
+                {
+                    renderer.sprite = spritePool[0];
+                    spriteUsage[0]++;
+                    return;
+                }
             }
 
-            // 같은 도형 3번 배치 끝난 경우 남은 건 무조건 null 배치
+            // 같은 도형 3번 배치 끝난 경우 -> null
             renderer.sprite = null;
             nullAssignment = true;
             return;
         }
-
-        else if (stageType < 6)
+        else if (stageType < 6) // 2-1-null
         {
-            int selectedIndex;
+            //int selectedIndex;
 
             if (spriteUsage[0] < 2)
             {
                 if (spriteUsage[1] < 2) // 같은 도형 2번 배치 덜 끝났을 떄
                 {
-                    if (!nullAssignment && Random.Range(0, 3) == 0)
+                    if (!nullAssignment && Random.Range(0, 3) == 0) //null
                     {
                         nullAssignment = true;
                         renderer.sprite = null;
                         return;
                     }
 
-                    selectedIndex = Random.Range(0, 2); // [0], [1] 중 랜덤 배치
+                    int selectedIndex = Random.Range(0, 2); // [0], [1] 중 랜덤 배치
                     renderer.sprite = spritePool[selectedIndex];
                     spriteUsage[selectedIndex]++;
                     return;
@@ -206,20 +187,19 @@ public class TableGenerator : MonoBehaviour
                 {
                     if (spriteUsage[0] < 1) // [0]을 한 번도 배치하지 않은 경우
                     {
-                        if (!nullAssignment && Random.Range(0, 2) == 0)
+                        if (!nullAssignment && Random.Range(0, 2) == 0) //null
                         {
                             nullAssignment = true;
                             renderer.sprite = null;
                             return;
                         }
 
-                        // [0]: 1번 [1]: 2번 배치
-                        renderer.sprite = spritePool[0]; // [0]으로 배치 
+                        renderer.sprite = spritePool[0]; // [0] 배치 
                         spriteUsage[0]++;
                         return;
                     }
 
-                    // 같은 도형 2, 다른 도형 1개 배치 완료한 경우 무조건 null
+                    // 같은 도형 2, 다른 도형 1개 배치 -> null 배치
                     nullAssignment = true;
                     renderer.sprite = null;
                     return;
@@ -229,32 +209,30 @@ public class TableGenerator : MonoBehaviour
             {
                 if (spriteUsage[1] < 1) // [1]을 한 번도 배치하지 않은 경우
                 {
-                    if (!nullAssignment && Random.Range(0, 2) == 0)
+                    if (!nullAssignment && Random.Range(0, 2) == 0) //null
                     {
                         nullAssignment = true;
                         renderer.sprite = null;
                         return;
                     }
 
-                    // [0]: 2번 [1]: 1번 배치
-                    renderer.sprite = spritePool[1]; // [1]로 배치
+                    renderer.sprite = spritePool[1]; // [1] 배치
                     spriteUsage[1]++;
                     return;
                 }
 
-                // 같은 도형 2, 다른 도형 1개 배치 완료한 경우 무조건 null
+                // 같은 도형 2, 다른 도형 1개 배치 -> null
                 nullAssignment = true;
                 renderer.sprite = null;
                 return;
             }
         }
-
-        else
+        else 
         {
             // null과 서로 다른 도형 3개 배치
-            if (spritePool[0] != null) // 서로 다른 도형 3개 배치가 안 끝난 경우
+            if(spritePool.Count != 0)
             {
-                if (!nullAssignment && Random.Range(0, 4) == 0)
+                if (!nullAssignment && Random.Range(0, 4) == 0) //null
                 {
                     nullAssignment = true;
                     renderer.sprite = null;
@@ -270,6 +248,7 @@ public class TableGenerator : MonoBehaviour
         }
     }
 
+    //for Pilot
     public int RotateAngle(int stageType)
     {
         switch (stageType)
@@ -295,51 +274,55 @@ public class TableGenerator : MonoBehaviour
                 Debug.LogError($"알 수 없는 문제 유형: {stageType}");
                 return -1;
         }
-
-        //public void PilotTableGenerate(TableController table) 
-        //{
-        //    List<Sprite> pilotTempSprites = new List<Sprite>(sha); // 도형 배치를 위한 임시 배열
-
-        //    Debug.Log("도형 랜덤 배치");
-        //    AssignSprite(table.North, pilotTempSprites);
-        //    AssignSprite(table.Sorth, pilotTempSprites);
-        //    AssignSprite(table.East, pilotTempSprites);
-        //    AssignSprite(table.West, pilotTempSprites);
-        //}
-
-        //private void AssignSprite(GameObject circle, int spriteIndex)
-        //{
-        ////스프라이트 선택
-        //if (spriteIndex >= animalSprites.Length)
-        //{
-        //    Debug.Log("추가되지 않은 동물입니다.");
-        //    return;
-        //}else if (spriteIndex == -1)
-        //{
-        //    Debug.Log("null: 빈칸입니다");
-        //    return;
-        //}
-
-        ////서클에 스프라이트 적용
-        //Sprite selectedSprite = animalSprites[spriteIndex];
-
-        //var renderer = circle.GetComponent<SpriteRenderer>();
-        //if (renderer == null)
-        //{
-        //    renderer = circle.AddComponent<SpriteRenderer>();
-        //}
-
-        //renderer.sprite = selectedSprite;
-
-        ////동물이 중앙을 바라보도록 sprite를 회전
-        //if (circle.name == "Circle_E")
-        //    circle.transform.rotation = Quaternion.Euler(0, 0, -90); // East: 시계방향 90도
-
-        //else if (circle.name == "Circle_W")
-        //    circle.transform.rotation = Quaternion.Euler(0, 0, 90); // West: 반시계방향 90도
-
-        //else if (circle.name == "Circle_S")
-        //    circle.transform.rotation = Quaternion.Euler(0, 0, 180); // South: 시계방향 180도
-        //}
     }
+
+    /*---------------------------각 셀 직접 세팅(Direct Setting for Each Cell) 
+    public void PilotTableGenerate(TableController table)
+    {
+        List<Sprite> pilotTempSprites = new List<Sprite>(sha); // 도형 배치를 위한 임시 배열
+
+        Debug.Log("도형 랜덤 배치");
+        AssignSprite(table.North, pilotTempSprites);
+        AssignSprite(table.South, pilotTempSprites);
+        AssignSprite(table.East, pilotTempSprites);
+        AssignSprite(table.West, pilotTempSprites);
+    }
+
+    private void AssignSprite(GameObject circle, int spriteIndex)
+    {
+        //스프라이트 선택
+        if (spriteIndex >= animalSprites.Length)
+        {
+            Debug.Log("추가되지 않은 동물입니다.");
+            return;
+        }
+        else if (spriteIndex == -1)
+        {
+            Debug.Log("null: 빈칸입니다");
+            return;
+        }
+
+        //서클에 스프라이트 적용
+        Sprite selectedSprite = animalSprites[spriteIndex];
+
+        var renderer = circle.GetComponent<SpriteRenderer>();
+        if (renderer == null)
+        {
+            renderer = circle.AddComponent<SpriteRenderer>();
+        }
+
+        renderer.sprite = selectedSprite;
+
+        //동물이 중앙을 바라보도록 sprite를 회전
+        if (circle.name == "Circle_E")
+            circle.transform.rotation = Quaternion.Euler(0, 0, -90); // East: 시계방향 90도
+
+        else if (circle.name == "Circle_W")
+            circle.transform.rotation = Quaternion.Euler(0, 0, 90); // West: 반시계방향 90도
+
+        else if (circle.name == "Circle_S")
+            circle.transform.rotation = Quaternion.Euler(0, 0, 180); // South: 시계방향 180도
+    }
+    */
+
 }
