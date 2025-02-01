@@ -15,7 +15,7 @@ public class QuestManager : MonoBehaviour
 
     //TestData
     public bool pilotFlag = true;
-    public int[] pilotStageType = { 1, 2, 3, 4, 5, 6, 7, 8 }; // stageType
+    public int[] pilotStageType = { 1, 2, 3, 4, 5, 6 }; // stageType
     List<int> shuffledStageTypes = new List<int>(); // Random stageType
 
     //List<Stage> pilotTableData = new List<Stage>();
@@ -134,14 +134,14 @@ public class QuestManager : MonoBehaviour
         *
         */
 
-        totalStageNum = 8;
+        totalStageNum = 6;
 
         // shuffle stageType
         List<int> stageTypeList = new List<int>(pilotStageType);
 
         while (stageTypeList.Count > 0)
         {
-            //Debug.Log($"stageTypeList.Count: {stageTypeList.Count}");
+            Debug.Log($"stageTypeList.Count: {stageTypeList.Count}");
             int index = Random.Range(0, stageTypeList.Count);
             shuffledStageTypes.Add(stageTypeList[index]);
             stageTypeList.RemoveAt(index);
