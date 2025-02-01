@@ -5,9 +5,9 @@ public class TableGenerator : MonoBehaviour
 {
     public Sprite[] animalSprites; // 동물 Sprites들을 요소로 갖는 배열
 
-    public Sprite[] shapeSprites; // 파일럿 용 도형 Sprites 배열
+    public Sprite[] colorSprites; // 파일럿 용 색상 Sprites 배열
     public bool nullAssignment; // Null이 포함 됐는지
-    public int[] spriteUsage;// selectedSprite 중 도형 배치 여부
+    public int[] spriteUsage;// selectedSprite 중 색상 배치 여부
     public int rotationAngle; // 90, 180, 270
 
     public static TableGenerator Instance { get; private set; }
@@ -29,7 +29,7 @@ public class TableGenerator : MonoBehaviour
         animalSprites = Resources.LoadAll<Sprite>("Sprites/Animals");
 
         // 파일럿 용 Unity 내 기본 제공 도형 스프라이트 로드 
-        shapeSprites = Resources.LoadAll<Sprite>("Sprites/Color");
+        colorSprites = Resources.LoadAll<Sprite>("Sprites/Color");
     }
 
     //--------------------NotPilot--------------------
@@ -81,43 +81,37 @@ public class TableGenerator : MonoBehaviour
     //----------------------Pilot----------------------
     public void TableGeneratePilot(TableController table, int stageType)
     {
-        // 도형 스프라이트 랜덤 선택을 위한 배열 복사
-        List<Sprite> selectedSprites = new List<Sprite>(); // 도형 배치를 위한 임시 배열
+        // 색  스프라이트 랜덤 선택을 위한 배열 복사
+        List<Sprite> selectedSprites = new List<Sprite>(); // 색상 배치를 위한 임시 배열
 
         nullAssignment = false;
 
         // Pilot 문제 데이터 구성 (8문항)
         switch (stageType)
         {
-            case 1: // 같은 도형 3개와 Null (90도)
-            case 2: // 같은 도형 3개와 Null (270도)
-                spriteUsage = new int[1] { 0 }; // 사용 여부 체크
-                selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
-                rotationAngle = stageType == 1 ? 90 : 270;
-                break;
 
-            case 3: // 같은 도형 2개와 다른 도형 1개 (90도)
-            case 4: // 같은 도형 2개와 다른 도형 1개 (180도)
-            case 5: // 같은 도형 2개와 다른 도형 1개 (270도)
+            case 1: // 같은 색상 2개와 다른 색상 1개 (90도)
+            case 2: // 같은 색상 2개와 다른 색상 1개 (180도)
+            case 3: // 같은 색상 2개와 다른 색상 1개 (270도)
                 spriteUsage = new int[2] { 0, 0 }; // 사용 여부 체크
-                selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
-                selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
+                selectedSprites.Add(colorSprites[Random.Range(0, colorSprites.Length)]);
+                selectedSprites.Add(colorSprites[Random.Range(0, colorSprites.Length)]);
                 while (selectedSprites[0] == selectedSprites[1]) //서로 다른 sprite로 세팅
                 {
-                    selectedSprites[1] = shapeSprites[Random.Range(0, shapeSprites.Length)];
+                    selectedSprites[1] = colorSprites[Random.Range(0, colorSprites.Length)];
                 }
                 rotationAngle = stageType == 3 ? 90 : (stageType == 4 ? 180 : 270);
                 break;
 
-            case 6: // 모두 다른 도형 (90도)
-            case 7: // 모두 다른 도형 (180도)
-            case 8: // 모두 다른 도형 (270도)
+            case 4: // 모두 다른 색상 (90도)
+            case 5: // 모두 다른 색상 (180도)
+            case 6: // 모두 다른 색상 (270도)
                 while (selectedSprites.Count < 3) //서로 다른 sprite로 세팅
                 {
-                    Sprite randomShape = shapeSprites[Random.Range(0, shapeSprites.Length)];
-                    if (!selectedSprites.Contains(randomShape))
+                    Sprite randomColor = colorSprites[Random.Range(0, colorSprites.Length)];
+                    if (!selectedSprites.Contains(randomColor))
                     {
-                        selectedSprites.Add(randomShape);
+                        selectedSprites.Add(randomColor);
                     }
                 }
                 rotationAngle = stageType == 6 ? 90 : (stageType == 7 ? 180 : 270);
@@ -138,38 +132,13 @@ public class TableGenerator : MonoBehaviour
     {
         SpriteRenderer renderer = circle.GetComponent<SpriteRenderer>();
 
-        // 각 문항 조건에 따른 도형 배치
-        if (stageType < 3) // 3-null
-        {
-            if (spriteUsage[0] < 3) // 같은 도형 3번 배치 덜 끝났을 때 -> 둘 중 랜덤
-            {
-                //null
-                if (!nullAssignment && Random.Range(0, 2) == 0) // 50% 확률로 null 배치 
-                {
-                    renderer.sprite = null;
-                    nullAssignment = true;
-                    return;
-                }
-                else //sprite 0
-                {
-                    renderer.sprite = spritePool[0];
-                    spriteUsage[0]++;
-                    return;
-                }
-            }
-
-            // 같은 도형 3번 배치 끝난 경우 -> null
-            renderer.sprite = null;
-            nullAssignment = true;
-            return;
-        }
-        else if (stageType < 6) // 2-1-null
+        if (stageType < 4) // 2-1-null
         {
             //int selectedIndex;
 
             if (spriteUsage[0] < 2)
             {
-                if (spriteUsage[1] < 2) // 같은 도형 2번 배치 덜 끝났을 떄
+                if (spriteUsage[1] < 2) // 같은 색상 2번 배치 덜 끝났을 떄
                 {
                     if (!nullAssignment && Random.Range(0, 3) == 0) //null
                     {
@@ -199,7 +168,7 @@ public class TableGenerator : MonoBehaviour
                         return;
                     }
 
-                    // 같은 도형 2, 다른 도형 1개 배치 -> null 배치
+                    // 같은 색상 2, 다른 색상 1개 배치 -> null 배치
                     nullAssignment = true;
                     renderer.sprite = null;
                     return;
@@ -221,7 +190,7 @@ public class TableGenerator : MonoBehaviour
                     return;
                 }
 
-                // 같은 도형 2, 다른 도형 1개 배치 -> null
+                // 같은 색상 2, 다른 색상 1개 배치 -> null
                 nullAssignment = true;
                 renderer.sprite = null;
                 return;
@@ -229,7 +198,7 @@ public class TableGenerator : MonoBehaviour
         }
         else 
         {
-            // null과 서로 다른 도형 3개 배치
+            // null과 서로 다른 색상 3개 배치
             if(spritePool.Count != 0)
             {
                 if (!nullAssignment && Random.Range(0, 4) == 0) //null
@@ -238,8 +207,8 @@ public class TableGenerator : MonoBehaviour
                     renderer.sprite = null;
                     return;
                 }
-                renderer.sprite = spritePool[0]; // 서로 다른 도형 배치
-                spritePool.RemoveAt(0); // 선택한 도형 제거
+                renderer.sprite = spritePool[0]; // 서로 다른 색상 배치
+                spritePool.RemoveAt(0); // 선택한 색상 제거
                 return;
             }
             nullAssignment = true;
@@ -253,21 +222,17 @@ public class TableGenerator : MonoBehaviour
     {
         switch (stageType)
         {
-            case 1: // 같은 도형 3개와 Null (90도)
+            case 1: // 같은 색상 2개와 다른 도형 1개 (90도)
                 return 0;
-            case 2: // 같은 도형 3개와 Null (270도)
-                return 2;
-            case 3: // 같은 도형 2개와 다른 도형 1개 (90도)
-                return 0;
-            case 4: // 같은 도형 2개와 다른 도형 1개 (180도)
+            case 2: // 같은 색상 2개와 다른 도형 1개 (180도)
                 return 1;
-            case 5: // 같은 도형 2개와 다른 도형 1개 (270도)
+            case 3: // 같은 색상 2개와 다른 도형 1개 (270도)
                 return 2;
-            case 6: // 모두 다른 도형 (90도)
+            case 4: // 모두 다른 색상 (90도)
                 return 0;
-            case 7: // 모두 다른 도형 (180도)
+            case 5: // 모두 다른 색상 (180도)
                 return 1;
-            case 8: // 모두 다른 도형 (270도)
+            case 6: // 모두 다른 색상 (270도)
                 return 2;
 
             default:
