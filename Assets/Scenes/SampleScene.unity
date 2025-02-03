@@ -1244,7 +1244,7 @@ MonoBehaviour:
   - {fileID: 767926713}
   - {fileID: 2037968694}
   pilotFlag: 1
-  pilotStageType: 010000000200000003000000040000000500000006000000
+  pilotStageType: 0100000002000000030000000400000005000000060000000700000008000000
   totalStageNum: 1
   stageNumber: {fileID: 532422379}
 --- !u!1 &207964968
@@ -5755,10 +5755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animalSprites: []
-  shapeSprites: []
-  nullAssignment: 0
-  spriteUsage: 
-  rotationAngle: 0
+  colorSprites: []
+  selectedSprites: []
 --- !u!4 &882350853
 Transform:
   m_ObjectHideFlags: 0

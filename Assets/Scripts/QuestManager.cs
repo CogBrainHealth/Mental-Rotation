@@ -15,10 +15,8 @@ public class QuestManager : MonoBehaviour
 
     //TestData
     public bool pilotFlag = true;
-    public int[] pilotStageType = { 1, 2, 3, 4, 5, 6 }; // stageType
+    public int[] pilotStageType; // stageType
     List<int> shuffledStageTypes = new List<int>(); // Random stageType
-
-    //List<Stage> pilotTableData = new List<Stage>();
 
     //GameData
     public int totalStageNum;
@@ -32,6 +30,7 @@ public class QuestManager : MonoBehaviour
 
     public static QuestManager Instance { get; private set; }
 
+    //-------------------Method-------------------
     public void Awake()
     {
         if (Instance == null)
@@ -127,14 +126,7 @@ public class QuestManager : MonoBehaviour
     //PilotGame Setting
     private void PilotDataSetting()
     {
-        /* 각 셀 직접 지정(Direct Setting for Each Cell)
-         * 
-        // Stage s1 = new Stage(0, new int[] { 0, 0, 0, 0 }, new int[] { 1, 1, 1, 1 }, new int[] { 2, 2, 2, 2 }, new int[] { 3, 3, 3, 3 });
-        // pilotTableData.Add(s1); 
-        *
-        */
-
-        totalStageNum = 6;
+        totalStageNum = 8;
 
         // shuffle stageType
         List<int> stageTypeList = new List<int>(pilotStageType);
@@ -175,8 +167,8 @@ public class QuestManager : MonoBehaviour
         stageNumber.text = $"{thisStageNum - 1} / {totalStageNum} ";
 
         // select stageType
-        int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++); 2~9 -> 1~8
-        tg.TableGeneratePilot(tableEx, stageType);
+        int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++);
+        tg.TableGeneratePilot(tableEx, stageType, true); // TableEx
 
         Debug.Log($"stageType: {stageType}");
 
@@ -232,7 +224,7 @@ public class QuestManager : MonoBehaviour
                 table[i].gameObject.SetActive(true);
                 do
                 {
-                    tg.TableGeneratePilot(table[i], stageType);
+                    tg.TableGeneratePilot(table[i], stageType, false);
                 }
                 while (table[i].CompareTable(tableEx)); // is it in answerArray
             }
@@ -268,25 +260,3 @@ public class QuestManager : MonoBehaviour
         pilotTest(); // Next Stage Call
     }
 }
-
-/* 각 셀 직접 세팅(Direct Setting for Each Cell)
-public class Stage
-{
-    public int[] exam { get; set; }
-    public int[] table1 { get; set; }
-    public int[] table2 { get; set; }
-    public int[] table3 { get; set; }
-
-    public int answer;
-
-    public Stage(int a, int[] e, int[] t1, int[] t2, int[] t3)
-    {
-        answer = a;
-
-        exam = e;
-        table1 = t1;
-        table2 = t2;
-        table3 = t3;
-    }
-}
-*/

@@ -61,7 +61,7 @@ public class TableController : MonoBehaviour
 
             for (int j = 0; j < myRenderer.Length; j++) // N, E, S, W 각 셀 비교
             {
-                int index = (i + j)%myRenderer.Length; //90도 회전 당 1칸씩 뒤 셀과 비교
+                int index = (i + j) % myRenderer.Length; //90도 회전 당 1칸씩 뒤 셀과 비교
                 if (myRenderer[j].sprite != targetRenderer[index].sprite)
                 {
                     isSameTable = false;
@@ -70,7 +70,7 @@ public class TableController : MonoBehaviour
                 else isSameTable = true; //모든 셀이 같은 경우
             }
 
-            if(isSameTable)
+            if (isSameTable)
                 return true;
         }
         return false; //모두 다르면 false
