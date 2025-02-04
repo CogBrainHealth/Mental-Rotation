@@ -24,8 +24,8 @@ public class QuestManager : MonoBehaviour
 
     private List<GameObject> clonedObjects = new List<GameObject>(); //Rotation Table of Ex (Answer List)
 
-    private int thisStageNum = 1; //Start at 1 stage
-    private int answer = 0; 
+    private int thisStageNum = 0; //Start at 1 stage
+    private int answer; 
     private float time = 0f;
 
     public static QuestManager Instance { get; private set; }
@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
     //Game Setting
     public void Game()
     {
-        if (thisStageNum <= totalStageNum) //Quest Count Check
+        if (thisStageNum < totalStageNum) //Quest Count Check
         {
             createStage();
             thisStageNum++;
@@ -80,7 +80,7 @@ public class QuestManager : MonoBehaviour
         clonedObjects.Clear();
 
         //stageNumber UI
-        stageNumber.text = $"{thisStageNum-1} / {totalStageNum} ";
+        stageNumber.text = $"{thisStageNum} / {totalStageNum} ";
 
         //create Ex Table
         tg.TableGenerate(tableEx);
@@ -143,7 +143,7 @@ public class QuestManager : MonoBehaviour
     // Game Start and Next Game
     public void pilotTest()
     {
-        if (thisStageNum <= totalStageNum) //Quest Count Check
+        if (thisStageNum < totalStageNum) //Quest Count Check
         {
             pilotStage(thisStageNum++);
         }
@@ -164,10 +164,10 @@ public class QuestManager : MonoBehaviour
         clonedObjects.Clear();
 
         // stageNumber UI
-        stageNumber.text = $"{thisStageNum - 1} / {totalStageNum} ";
+        stageNumber.text = $"{thisStageNum} / {totalStageNum} ";
 
         // select stageType
-        int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++);
+        int stageType = shuffledStageTypes[thisStageNum - 1]; // index니까
         tg.TableGeneratePilot(tableEx, stageType, true); // TableEx
 
         Debug.Log($"stageType: {stageType}");
@@ -187,6 +187,7 @@ public class QuestManager : MonoBehaviour
 
         //select correct answer number
         answer = Random.Range(0, 3);
+        Debug.Log($"정답: {answer + 1}");
 
         //generate choice tables
         for (int i = 0; i < 3; i++)
@@ -226,7 +227,7 @@ public class QuestManager : MonoBehaviour
                 {
                     tg.TableGeneratePilot(table[i], stageType, false);
                 }
-                while (table[i].CompareTable(tableEx)); // is it in answerArray
+                while (table[i].CompareTable(tableEx));
             }
         }
 

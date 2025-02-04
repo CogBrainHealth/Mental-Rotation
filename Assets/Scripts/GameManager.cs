@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
                 countCorrect++;
                 correct = "정답";
             }
-            str += ss.name-1 +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
+            str += ss.name +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
         }
 
         result.text = str;

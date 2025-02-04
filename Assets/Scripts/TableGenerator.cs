@@ -108,7 +108,7 @@ public class TableGenerator : MonoBehaviour
                 break;
 
             //case 9: // 4가지 색상으로 4칸 채움 (90)
-            //case 10: // 4가지 색상으로 4칸 채움 (180)  -> 이 두 케이스를 추가하면 자꾸 유니티 응답 대기가 된다 ...
+            //case 10: // 4가지 색상으로 4칸 채움 (180)  -> 이 두 케이스를 추가하면 자꾸 유니티가 다운 된다 ...
             //    spriteUsage = new int[4] { 1, 1, 1, 1 };
 
             //    if (isExample)
@@ -139,69 +139,6 @@ public class TableGenerator : MonoBehaviour
     public void AssignPilotSprite(GameObject circle, int stageType)
     {
         SpriteRenderer renderer = circle.GetComponent<SpriteRenderer>();
-
-        //if (stageType < 4) // 2-1-null
-        //{
-        //if (spriteUsage[0] < 2)
-        //{
-        //    if (spriteUsage[1] < 2) // 같은 색상 2번 배치 덜 끝났을 떄
-        //    {
-        //        if (!nullAssignment && Random.Range(0, 3) == 0) //null
-        //        {
-        //            nullAssignment = true;
-        //            renderer.sprite = null;
-        //            return;
-        //        }
-
-        //        int selectedIndex = Random.Range(0, 2); // [0], [1] 중 랜덤 배치
-        //        renderer.sprite = selectedSprites[selectedIndex];
-        //        spriteUsage[selectedIndex]++;
-        //        return;
-        //    }
-        //    else // spritePool[1] 이미 2번 배치한 경우
-        //    {
-        //        if (spriteUsage[0] < 1) // [0]을 한 번도 배치하지 않은 경우
-        //        {
-        //            if (!nullAssignment && Random.Range(0, 2) == 0) //null
-        //            {
-        //                nullAssignment = true;
-        //                renderer.sprite = null;
-        //                return;
-        //            }
-
-        //            renderer.sprite = selectedSprites[0]; // [0] 배치 
-        //            spriteUsage[0]++;
-        //            return;
-        //        }
-
-        //        // 같은 색상 2, 다른 색상 1개 배치 -> null 배치
-        //        nullAssignment = true;
-        //        renderer.sprite = null;
-        //        return;
-        //    }
-        //}
-        //else // spritePool[0] 이미 2번 배치한 경우
-        //{
-        //    if (spriteUsage[1] < 1) // [1]을 한 번도 배치하지 않은 경우
-        //    {
-        //        if (!nullAssignment && Random.Range(0, 2) == 0) //null
-        //        {
-        //            nullAssignment = true;
-        //            renderer.sprite = null;
-        //            return;
-        //        }
-
-        //        renderer.sprite = selectedSprites[1]; // [1] 배치
-        //        spriteUsage[1]++;
-        //        return;
-        //    }
-
-        //    // 같은 색상 2, 다른 색상 1개 배치 -> null
-        //    nullAssignment = true;
-        //    renderer.sprite = null;
-        //    return;
-        //}
-        //}
 
         switch (stageType)
         {
