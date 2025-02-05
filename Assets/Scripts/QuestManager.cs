@@ -126,7 +126,7 @@ public class QuestManager : MonoBehaviour
     //PilotGame Setting
     private void PilotDataSetting()
     {
-        totalStageNum = 8;
+        totalStageNum = 10;
 
         // shuffle stageType
         List<int> stageTypeList = new List<int>(pilotStageType);
@@ -194,27 +194,7 @@ public class QuestManager : MonoBehaviour
         {
             if (i == answer) //correct answer
             {
-                //-----------정답 테이블 선지로 복제
-                //// find answer rotation degree
-                //int correctAnswerIndex = tg.RotateAngle(stageType);
-                //TableController answerTable;
-                //try
-                //{
-                //    answerTable = Instantiate(answerArray[correctAnswerIndex], answerArray[correctAnswerIndex].transform.parent);
-
-                //    // Transform to choice Table
-                //    answerTable.transform.position = new Vector3(-1.3f+(1.3f*i), -3.3f, 0);
-                //    answerTable.transform.localScale = new Vector3(0.21f, 0.21f, 0);
-
-                //    // add in cloned object list
-                //    clonedObjects.Add(answerTable.gameObject);
-                //}
-                //catch (IndexOutOfRangeException)
-                //{
-                //    Debug.LogError($"Invalid correctAnswerIndex: {correctAnswerIndex}");
-                //}
-
-                //------------정답 테이블 선지로 이동
+                //정답 테이블 선지로 이동
                 int correctAnswerIndex = tg.RotateAngle(stageType);
 
                 TableController answerTable = answerArray[correctAnswerIndex];
@@ -227,7 +207,10 @@ public class QuestManager : MonoBehaviour
                 {
                     tg.TableGeneratePilot(table[i], stageType, false);
                 }
-                while (table[i].CompareTable(tableEx));
+                while ( table[i].CompareTable(tableEx) ||
+                        (i > 0 && answer != 0 && table[i].CompareTable(table[0])) ||
+                        (i == 2 && answer != 1 && table[i].CompareTable(table[1]))
+                       ); // 보기 및 이미 생성된 오답 선지와 같으면 다시 생성
             }
         }
 

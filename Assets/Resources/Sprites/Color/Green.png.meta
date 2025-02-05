@@ -3,8 +3,8 @@ guid: f0e0db38cd5f438438e99c143c139d2c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8798227592362003023
-    second: Ellipse 240_0
+      213: -4987337320017983735
+    second: Green_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,11 +122,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ellipse 240_0
+      name: Green_0
       rect:
         serializedVersion: 2
         x: 0
@@ -141,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1b5f838ae9a66e580800000000000000
-      internalID: -8798227592362003023
+      spriteID: 9078749a12b69cab0800000000000000
+      internalID: -4987337320017983735
       vertices: []
       indices: 
       edges: []
@@ -161,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Ellipse 240_0: -8798227592362003023
+      Green_0: -4987337320017983735
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

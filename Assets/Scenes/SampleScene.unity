@@ -290,7 +290,7 @@ SpriteRenderer:
   m_Size: {x: 1.1142857, y: 1.1142857}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &77193306
@@ -595,7 +595,7 @@ SpriteRenderer:
   m_Size: {x: 1.1142857, y: 1.1142857}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &111553109
@@ -1244,7 +1244,7 @@ MonoBehaviour:
   - {fileID: 767926713}
   - {fileID: 2037968694}
   pilotFlag: 1
-  pilotStageType: 0100000002000000030000000400000005000000060000000700000008000000
+  pilotStageType: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
   totalStageNum: 1
   stageNumber: {fileID: 532422379}
 --- !u!1 &207964968
@@ -6163,7 +6163,7 @@ SpriteRenderer:
   m_Size: {x: 1.1142857, y: 1.1142857}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1019386324
@@ -7328,7 +7328,7 @@ SpriteRenderer:
   m_Size: {x: 1.1142857, y: 1.1142857}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1282758422
@@ -8212,7 +8212,7 @@ SpriteRenderer:
   m_Size: {x: 1.1142857, y: 1.1142857}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1427377754
@@ -11229,7 +11229,7 @@ SpriteRenderer:
   m_Size: {x: 1.1142857, y: 1.1142857}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2091658058
