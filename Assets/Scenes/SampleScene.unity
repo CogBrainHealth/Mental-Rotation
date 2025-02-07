@@ -1395,6 +1395,7 @@ MonoBehaviour:
   game: {fileID: 305146433}
   over: {fileID: 650321686}
   inputWarning: {fileID: 865133587}
+  inputMMSE: {fileID: 496887603}
   inputAge: {fileID: 613302498}
   userInfo: {fileID: 2107240617}
   totalScore: {fileID: 1721500449}
@@ -9649,7 +9650,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1566806991
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12197,7 +12198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 150, y: 1054}
+  m_AnchoredPosition: {x: 140, y: 1276}
   m_SizeDelta: {x: -300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2107240617
@@ -12220,7 +12221,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC131\uBCC4/\uB098\uC774"
+  m_text: "MMSE \uC810\uC218/\uC131\uBCC4/\uB098\uC774"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
   m_sharedMaterial: {fileID: -2934337445762602358, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
@@ -12285,7 +12286,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -1.6403207, w: 0}
+  m_margin: {x: 0.000061035156, y: 0, z: -1.6403207, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

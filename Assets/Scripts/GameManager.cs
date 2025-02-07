@@ -16,8 +16,10 @@ public class GameManager : MonoBehaviour
     //input
     public GameObject inputWarning;
 
+    public TextMeshProUGUI inputMMSE;
     public TextMeshProUGUI inputAge;
 
+    string mmseScore;
     string userAge;
     string userGender = "여성"; //default
 
@@ -74,6 +76,17 @@ public class GameManager : MonoBehaviour
         }
 
         userAge = inputAge.text;
+
+        foreach (char c in inputMMSE.text) //Does mmse score consist of numbers
+        {
+            if (c >= '0' && c <= '9' || "\0\n \u200B\t".Contains(c))
+                continue;
+
+            inputWarning.SetActive(true);
+            return false;
+        }
+
+        mmseScore = inputMMSE.text;
         return true;
     }
 
@@ -129,7 +142,8 @@ public class GameManager : MonoBehaviour
 
         result.text = str;
         totalScore.text = "총 점수: " + countCorrect.ToString();
-        userInfo.text = "성별: " + userGender + " / " + "나이: " + userAge;
+        userInfo.text = "MMSE 점수: " + mmseScore + "\n" +
+                        "성별: " + userGender + " / " + "나이: " + userAge;
     }
 }
 
