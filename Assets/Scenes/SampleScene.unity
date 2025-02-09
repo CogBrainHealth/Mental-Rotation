@@ -1395,7 +1395,7 @@ MonoBehaviour:
   game: {fileID: 305146433}
   over: {fileID: 650321686}
   inputWarning: {fileID: 865133587}
-  inputMMSE: {fileID: 496887603}
+  inputNickName: {fileID: 496887603}
   inputAge: {fileID: 613302498}
   userInfo: {fileID: 2107240617}
   totalScore: {fileID: 1721500449}
@@ -9710,7 +9710,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC810\uC218\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694"
+  m_text: "\uB2C9\uB124\uC784\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
   m_sharedMaterial: {fileID: -2934337445762602358, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
@@ -12085,7 +12085,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "MMSE \uC810\uC218"
+  m_text: "\uB2C9\uB124\uC784"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
   m_sharedMaterial: {fileID: -2934337445762602358, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
