@@ -1,14 +1,19 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class TableGenerator : MonoBehaviour
 {
     public Sprite[] animalSprites; // 동물 Sprites들을 요소로 갖는 배열
+    public Sprite[] colorSprites; // 파일럿 용 색상 Sprites 배열
+    public List<Sprite> selectedSprites = new List<Sprite>(); // 색상 배치를 위한 임시 배열
+    Action[] assignActions; // 랜덤으로 동서남북 채우는 용
+                            // using System; 추가했더니 Random에 에러 생김 -> UnityEngine.Random으로 수정
 
-    public Sprite[] shapeSprites; // 파일럿 용 도형 Sprites 배열
-    public bool nullAssignment; // Null이 포함 됐는지
-    public int[] spriteUsage;// selectedSprite 중 도형 배치 여부
-    public int rotationAngle; // 90, 180, 270
+    private bool nullAssignment; // Null이 포함 됐는지
+    private int[] spriteUsage;// selectedSprite 중 색상 배치 여부
+    private int rotationAngle; // 90, 180, 270
+    private int twoTimesIndex; // 2번 사용되는 색상
 
     public static TableGenerator Instance { get; private set; }
 
@@ -29,7 +34,241 @@ public class TableGenerator : MonoBehaviour
         animalSprites = Resources.LoadAll<Sprite>("Sprites/Animals");
 
         // 파일럿 용 Unity 내 기본 제공 도형 스프라이트 로드 
-        shapeSprites = Resources.LoadAll<Sprite>("Sprites/Color");
+        colorSprites = Resources.LoadAll<Sprite>("Sprites/Color");
+    }
+
+    //----------------------Pilot----------------------
+    public void TableGeneratePilot(TableController table, int stageType, bool isExample )
+    {
+      
+        nullAssignment = false;
+
+        // Pilot 문제 데이터 구성 (8문항)
+        // TableEx인 경우일 때만 selectedSprites를 새로 생성
+
+        switch (stageType)
+        {
+
+            case 1: // 같은 색상 2개와 다른 색상 1개 (90도)
+            case 2: // 같은 색상 2개와 다른 색상 1개 (180도)
+            case 3: // 같은 색상 2개와 다른 색상 1개 (270도)
+                spriteUsage = new int[2] { 2, 1 }; // 사용 여부 초기화사용 여부 초기화
+                                                   // 선지에서도 같은 색상 두 번 사용
+
+                if (isExample)
+                {
+                    selectedSprites.Clear(); // 기존 데이터 초기화
+
+                    selectedSprites.Add(colorSprites[UnityEngine.Random.Range(0, colorSprites.Length)]);
+                    selectedSprites.Add(colorSprites[UnityEngine.Random.Range(0, colorSprites.Length)]);
+                    while (selectedSprites[0] == selectedSprites[1]) //서로 다른 sprite로 세팅
+                    {
+                        selectedSprites[1] = colorSprites[UnityEngine.Random.Range(0, colorSprites.Length)];
+                    }
+                }
+                break;
+
+            case 4: // 모두 다른 색상 (90도)
+            case 5: // 모두 다른 색상 (180도)
+            case 6: // 모두 다른 색상 (270도)
+                spriteUsage = new int[3] { 1, 1, 1 }; // 사용 여부 초기화
+
+                if (isExample)
+                {
+                    selectedSprites.Clear(); // 기존 데이터 초기화
+                    while (selectedSprites.Count < 3) //서로 다른 sprite로 세팅
+                    {
+                        Sprite randomColor = colorSprites[UnityEngine.Random.Range(0, colorSprites.Length)];
+                        if (!selectedSprites.Contains(randomColor))
+                        {
+                            selectedSprites.Add(randomColor);
+                        }
+                    }
+                }
+                break;
+
+            case 7: // 3가지 색상으로 4칸 채움 (180)
+            case 8: // 3가지 색상으로 4칸 채움 (270)
+                spriteUsage = new int[3] { 2, 1, 1 }; // 사용 여부 초기화
+                                                      // 선지에서도 같은 색상 두 번 사용 
+
+                if (isExample)
+                {
+                    selectedSprites.Clear();
+                    while (selectedSprites.Count < 3)
+                    {
+                        Sprite randomColor = colorSprites[UnityEngine.Random.Range(0, colorSprites.Length)];
+                        if (!selectedSprites.Contains(randomColor))
+                        {
+                            selectedSprites.Add(randomColor);
+                        }
+                    }
+                }
+                break;
+
+            case 9: // 4가지 색상으로 4칸 채움 (90)
+            case 10: // 4가지 색상으로 4칸 채움 (180)
+                     // -> 이 두 케이스를 추가하면 자꾸 유니티가 다운 된다 ...
+                     // -> 이것도 동서남북 랜덤 배치로 해결
+                spriteUsage = new int[4] { 1, 1, 1, 1 };
+
+                if (isExample)
+                {
+                    selectedSprites.Clear();
+                    while (selectedSprites.Count < 4)
+                    {
+                        Sprite randomColor = colorSprites[UnityEngine.Random.Range(0, colorSprites.Length)];
+                        if (!selectedSprites.Contains(randomColor))
+                        {
+                            selectedSprites.Add(randomColor);
+                        }
+                    }
+                }
+                break;
+
+            default:
+                Debug.LogError($"알 수 없는 문제 유형: {stageType}");
+                return;
+        }
+
+        // 보기와 선지가 두 번 사용하는 색상이 같도록 했더니 에러가 남
+        // -> 같은 순서로 배치되니까 비교메소드에서 true를 반환할 수밖에 없음
+        // 동서남북 랜덤으로 배치 시작
+        assignActions = new Action[]
+        {
+            () => AssignPilotSprite(table.North, stageType),
+            () => AssignPilotSprite(table.South, stageType),
+            () => AssignPilotSprite(table.East, stageType),
+            () => AssignPilotSprite(table.West, stageType)
+        };
+
+        // Fisher-Yates Shuffle 알고리즘
+        System.Random rnd = new System.Random();
+        for (int i = assignActions.Length - 1; i > 0; i--)
+        {
+            int j = rnd.Next(0, i + 1);
+            (assignActions[i], assignActions[j]) = (assignActions[j], assignActions[i]); // Swap
+        }
+
+        // 섞인 순서로 실행
+        foreach (var action in assignActions)
+        {
+            action();
+        }
+    }
+
+    public void AssignPilotSprite(GameObject circle, int stageType)
+    {
+        SpriteRenderer renderer = circle.GetComponent<SpriteRenderer>();
+
+        switch (stageType)
+        {
+            case 1:
+            case 2:
+            case 3: // 2-1-null
+                if (!nullAssignment && UnityEngine.Random.Range(0, 3) == 0) // null
+                {
+                    nullAssignment = true;
+                    renderer.sprite = null;
+                    return;
+                }
+                AssignSpriteOrNull(renderer);
+                break;
+
+            case 4:
+            case 5:
+            case 6: // 1-1-1-null
+                if (!nullAssignment && UnityEngine.Random.Range(0, 4) == 0) // null
+                {
+                    nullAssignment = true;
+                    renderer.sprite = null;
+                    return;
+                }
+                AssignSpriteOrNull(renderer);
+                break;
+
+            case 7:
+            case 8: // 2-1-1
+                for (int i = 0; i < 3; i++)
+                {
+                    if (spriteUsage[i] > 0)
+                    {
+                        renderer.sprite = selectedSprites[i];
+                        spriteUsage[i]--;
+                        return;
+                    }
+                }
+                break;
+
+            case 9:
+            case 10: // 1-1-1-1
+                for (int i = 0; i < 4; i++)
+                {
+                    if (spriteUsage[i] > 0)
+                    {
+                        renderer.sprite = selectedSprites[i];
+                        spriteUsage[i]--;
+                        return;
+                    }
+                }
+                break;
+
+            default:
+                Debug.LogError($"예상치 못한 stageType: {stageType}");
+                break;
+        }
+
+    }
+
+    // 스프라이트 배치 로직을 별도 함수로 정리
+    public void AssignSpriteOrNull(SpriteRenderer renderer)
+    {
+        for (int i = 0; i < selectedSprites.Count; i++)
+        {
+            if (spriteUsage[i] > 0) // 아직 배치되지 않은 스프라이트라면
+            {
+                renderer.sprite = selectedSprites[i];
+                spriteUsage[i]--; // 사용 체크
+                return;
+            }
+        }
+        nullAssignment = true;
+        renderer.sprite = null;
+        return;
+    }
+
+    //for Pilot
+    public int RotateAngle(int stageType)
+    {
+        // Pilot stage answer setting
+        switch (stageType)
+        {
+            case 1: // 같은 색상 2개와 다른 색상 1개 (90도)
+                return 0;
+            case 2: // 같은 색상 2개와 다른 색상 1개 (180도)
+                return 1;
+            case 3: // 같은 색상 2개와 다른 색상 1개 (270도)
+                return 2;
+            case 4: // 모두 다른 색상 3개 (90도)
+                return 0;
+            case 5: // 모두 다른 색상 3개 (180도)
+                return 1;
+            case 6: // 모두 다른 색상 3개 (270도)
+                return 2;
+            case 7: // 같은 색상 2개와 다른 색상 2개 (180도)
+                return 1;
+            case 8: // 같은 색상 2개와 다른 색상 2개 (270도)
+                return 2;
+            case 9: // 모두 다른 색상 4개 (90도)
+                return 0;
+            case 10: // 모두 다른 색상 4개 (180도)
+                return 1;
+
+
+            default:
+                Debug.LogError($"알 수 없는 문제 유형: {stageType}");
+                return -1;
+        }
     }
 
     //--------------------NotPilot--------------------
@@ -52,7 +291,7 @@ public class TableGenerator : MonoBehaviour
         if (spritePool.Count == 0) return;
 
         // 랜덤으로 스프라이트 선택
-        int randomIndex = Random.Range(0, spritePool.Count);
+        int randomIndex = UnityEngine.Random.Range(0, spritePool.Count);
         Sprite selectedSprite = spritePool[randomIndex];
 
         // 선택한 스프라이트를 해당 Circle의 SpriteRenderer에 적용
@@ -78,203 +317,6 @@ public class TableGenerator : MonoBehaviour
         spritePool.RemoveAt(randomIndex);
     }
 
-    //----------------------Pilot----------------------
-    public void TableGeneratePilot(TableController table, int stageType)
-    {
-        // 도형 스프라이트 랜덤 선택을 위한 배열 복사
-        List<Sprite> selectedSprites = new List<Sprite>(); // 도형 배치를 위한 임시 배열
-
-        nullAssignment = false;
-
-        // Pilot 문제 데이터 구성 (8문항)
-        switch (stageType)
-        {
-            case 1: // 같은 도형 3개와 Null (90도)
-            case 2: // 같은 도형 3개와 Null (270도)
-                spriteUsage = new int[1] { 0 }; // 사용 여부 체크
-                selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
-                rotationAngle = stageType == 1 ? 90 : 270;
-                break;
-
-            case 3: // 같은 도형 2개와 다른 도형 1개 (90도)
-            case 4: // 같은 도형 2개와 다른 도형 1개 (180도)
-            case 5: // 같은 도형 2개와 다른 도형 1개 (270도)
-                spriteUsage = new int[2] { 0, 0 }; // 사용 여부 체크
-                selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
-                selectedSprites.Add(shapeSprites[Random.Range(0, shapeSprites.Length)]);
-                while (selectedSprites[0] == selectedSprites[1]) //서로 다른 sprite로 세팅
-                {
-                    selectedSprites[1] = shapeSprites[Random.Range(0, shapeSprites.Length)];
-                }
-                rotationAngle = stageType == 3 ? 90 : (stageType == 4 ? 180 : 270);
-                break;
-
-            case 6: // 모두 다른 도형 (90도)
-            case 7: // 모두 다른 도형 (180도)
-            case 8: // 모두 다른 도형 (270도)
-                while (selectedSprites.Count < 3) //서로 다른 sprite로 세팅
-                {
-                    Sprite randomShape = shapeSprites[Random.Range(0, shapeSprites.Length)];
-                    if (!selectedSprites.Contains(randomShape))
-                    {
-                        selectedSprites.Add(randomShape);
-                    }
-                }
-                rotationAngle = stageType == 6 ? 90 : (stageType == 7 ? 180 : 270);
-                break;
-
-            default:
-                Debug.LogError($"알 수 없는 문제 유형: {stageType}");
-                return;
-        }
-        //Debug.Log($"{stageType}");
-        AssignPilotSprite(table.North, selectedSprites, stageType);
-        AssignPilotSprite(table.South, selectedSprites, stageType);
-        AssignPilotSprite(table.East, selectedSprites, stageType);
-        AssignPilotSprite(table.West, selectedSprites, stageType);
-    }
-
-    public void AssignPilotSprite(GameObject circle, List<Sprite> spritePool, int stageType)
-    {
-        SpriteRenderer renderer = circle.GetComponent<SpriteRenderer>();
-
-        // 각 문항 조건에 따른 도형 배치
-        if (stageType < 3) // 3-null
-        {
-            if (spriteUsage[0] < 3) // 같은 도형 3번 배치 덜 끝났을 때 -> 둘 중 랜덤
-            {
-                //null
-                if (!nullAssignment && Random.Range(0, 2) == 0) // 50% 확률로 null 배치 
-                {
-                    renderer.sprite = null;
-                    nullAssignment = true;
-                    return;
-                }
-                else //sprite 0
-                {
-                    renderer.sprite = spritePool[0];
-                    spriteUsage[0]++;
-                    return;
-                }
-            }
-
-            // 같은 도형 3번 배치 끝난 경우 -> null
-            renderer.sprite = null;
-            nullAssignment = true;
-            return;
-        }
-        else if (stageType < 6) // 2-1-null
-        {
-            //int selectedIndex;
-
-            if (spriteUsage[0] < 2)
-            {
-                if (spriteUsage[1] < 2) // 같은 도형 2번 배치 덜 끝났을 떄
-                {
-                    if (!nullAssignment && Random.Range(0, 3) == 0) //null
-                    {
-                        nullAssignment = true;
-                        renderer.sprite = null;
-                        return;
-                    }
-
-                    int selectedIndex = Random.Range(0, 2); // [0], [1] 중 랜덤 배치
-                    renderer.sprite = spritePool[selectedIndex];
-                    spriteUsage[selectedIndex]++;
-                    return;
-                }
-                else // spritePool[1] 이미 2번 배치한 경우
-                {
-                    if (spriteUsage[0] < 1) // [0]을 한 번도 배치하지 않은 경우
-                    {
-                        if (!nullAssignment && Random.Range(0, 2) == 0) //null
-                        {
-                            nullAssignment = true;
-                            renderer.sprite = null;
-                            return;
-                        }
-
-                        renderer.sprite = spritePool[0]; // [0] 배치 
-                        spriteUsage[0]++;
-                        return;
-                    }
-
-                    // 같은 도형 2, 다른 도형 1개 배치 -> null 배치
-                    nullAssignment = true;
-                    renderer.sprite = null;
-                    return;
-                }
-            }
-            else // spritePool[0] 이미 2번 배치한 경우
-            {
-                if (spriteUsage[1] < 1) // [1]을 한 번도 배치하지 않은 경우
-                {
-                    if (!nullAssignment && Random.Range(0, 2) == 0) //null
-                    {
-                        nullAssignment = true;
-                        renderer.sprite = null;
-                        return;
-                    }
-
-                    renderer.sprite = spritePool[1]; // [1] 배치
-                    spriteUsage[1]++;
-                    return;
-                }
-
-                // 같은 도형 2, 다른 도형 1개 배치 -> null
-                nullAssignment = true;
-                renderer.sprite = null;
-                return;
-            }
-        }
-        else 
-        {
-            // null과 서로 다른 도형 3개 배치
-            if(spritePool.Count != 0)
-            {
-                if (!nullAssignment && Random.Range(0, 4) == 0) //null
-                {
-                    nullAssignment = true;
-                    renderer.sprite = null;
-                    return;
-                }
-                renderer.sprite = spritePool[0]; // 서로 다른 도형 배치
-                spritePool.RemoveAt(0); // 선택한 도형 제거
-                return;
-            }
-            nullAssignment = true;
-            renderer.sprite = null;
-            return;
-        }
-    }
-
-    //for Pilot
-    public int RotateAngle(int stageType)
-    {
-        switch (stageType)
-        {
-            case 1: // 같은 도형 3개와 Null (90도)
-                return 0;
-            case 2: // 같은 도형 3개와 Null (270도)
-                return 2;
-            case 3: // 같은 도형 2개와 다른 도형 1개 (90도)
-                return 0;
-            case 4: // 같은 도형 2개와 다른 도형 1개 (180도)
-                return 1;
-            case 5: // 같은 도형 2개와 다른 도형 1개 (270도)
-                return 2;
-            case 6: // 모두 다른 도형 (90도)
-                return 0;
-            case 7: // 모두 다른 도형 (180도)
-                return 1;
-            case 8: // 모두 다른 도형 (270도)
-                return 2;
-
-            default:
-                Debug.LogError($"알 수 없는 문제 유형: {stageType}");
-                return -1;
-        }
-    }
 
     /*---------------------------각 셀 직접 세팅(Direct Setting for Each Cell) 
     public void PilotTableGenerate(TableController table)

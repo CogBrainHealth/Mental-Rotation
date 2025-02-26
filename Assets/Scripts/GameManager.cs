@@ -12,12 +12,14 @@ public class GameManager : MonoBehaviour
     public GameObject game;
     public GameObject over;
 
-    //-------------Pilot Information
+    //-------------Pilot Information-------------
     //input
     public GameObject inputWarning;
 
+    public TextMeshProUGUI inputNickName;
     public TextMeshProUGUI inputAge;
 
+    string nickName;
     string userAge;
     string userGender = "여성"; //default
 
@@ -74,6 +76,7 @@ public class GameManager : MonoBehaviour
         }
 
         userAge = inputAge.text;
+        nickName = inputNickName.text;
         return true;
     }
 
@@ -124,12 +127,13 @@ public class GameManager : MonoBehaviour
                 countCorrect++;
                 correct = "정답";
             }
-            str += ss.name-1 +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
+            str += ss.name +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
         }
 
         result.text = str;
         totalScore.text = "총 점수: " + countCorrect.ToString();
-        userInfo.text = "성별: " + userGender + " / " + "나이: " + userAge;
+        userInfo.text = "닉네임: " + nickName + "\n" +
+                        "성별: " + userGender + " / " + "나이: " + userAge;
     }
 }
 

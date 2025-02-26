@@ -15,10 +15,8 @@ public class QuestManager : MonoBehaviour
 
     //TestData
     public bool pilotFlag = true;
-    public int[] pilotStageType = { 1, 2, 3, 4, 5, 6, 7, 8 }; // stageType
+    public int[] pilotStageType; // stageType
     List<int> shuffledStageTypes = new List<int>(); // Random stageType
-
-    //List<Stage> pilotTableData = new List<Stage>();
 
     //GameData
     public int totalStageNum;
@@ -26,12 +24,13 @@ public class QuestManager : MonoBehaviour
 
     private List<GameObject> clonedObjects = new List<GameObject>(); //Rotation Table of Ex (Answer List)
 
-    private int thisStageNum = 1; //Start at 1 stage
-    private int answer = 0; 
+    private int thisStageNum = 0; //Start at 1 stage
+    private int answer; 
     private float time = 0f;
 
     public static QuestManager Instance { get; private set; }
 
+    //-------------------Method-------------------
     public void Awake()
     {
         if (Instance == null)
@@ -59,7 +58,7 @@ public class QuestManager : MonoBehaviour
     //Game Setting
     public void Game()
     {
-        if (thisStageNum <= totalStageNum) //Quest Count Check
+        if (thisStageNum < totalStageNum) //Quest Count Check
         {
             createStage();
             thisStageNum++;
@@ -81,7 +80,7 @@ public class QuestManager : MonoBehaviour
         clonedObjects.Clear();
 
         //stageNumber UI
-        stageNumber.text = $"{thisStageNum-1} / {totalStageNum} ";
+        stageNumber.text = $"{thisStageNum} / {totalStageNum} ";
 
         //create Ex Table
         tg.TableGenerate(tableEx);
@@ -127,21 +126,14 @@ public class QuestManager : MonoBehaviour
     //PilotGame Setting
     private void PilotDataSetting()
     {
-        /* 각 셀 직접 지정(Direct Setting for Each Cell)
-         * 
-        // Stage s1 = new Stage(0, new int[] { 0, 0, 0, 0 }, new int[] { 1, 1, 1, 1 }, new int[] { 2, 2, 2, 2 }, new int[] { 3, 3, 3, 3 });
-        // pilotTableData.Add(s1); 
-        *
-        */
-
-        totalStageNum = 8;
+        totalStageNum = 10;
 
         // shuffle stageType
         List<int> stageTypeList = new List<int>(pilotStageType);
 
         while (stageTypeList.Count > 0)
         {
-            //Debug.Log($"stageTypeList.Count: {stageTypeList.Count}");
+            Debug.Log($"stageTypeList.Count: {stageTypeList.Count}");
             int index = Random.Range(0, stageTypeList.Count);
             shuffledStageTypes.Add(stageTypeList[index]);
             stageTypeList.RemoveAt(index);
@@ -151,7 +143,7 @@ public class QuestManager : MonoBehaviour
     // Game Start and Next Game
     public void pilotTest()
     {
-        if (thisStageNum <= totalStageNum) //Quest Count Check
+        if (thisStageNum < totalStageNum) //Quest Count Check
         {
             pilotStage(thisStageNum++);
         }
@@ -172,11 +164,11 @@ public class QuestManager : MonoBehaviour
         clonedObjects.Clear();
 
         // stageNumber UI
-        stageNumber.text = $"{thisStageNum - 1} / {totalStageNum} ";
+        stageNumber.text = $"{thisStageNum} / {totalStageNum} ";
 
         // select stageType
-        int stageType = shuffledStageTypes[thisStageNum - 2]; // pilotStage(thisStageNum++); 2~9 -> 1~8
-        tg.TableGeneratePilot(tableEx, stageType);
+        int stageType = shuffledStageTypes[thisStageNum - 1]; // index니까
+        tg.TableGeneratePilot(tableEx, stageType, true); // TableEx
 
         Debug.Log($"stageType: {stageType}");
 
@@ -195,33 +187,14 @@ public class QuestManager : MonoBehaviour
 
         //select correct answer number
         answer = Random.Range(0, 3);
+        Debug.Log($"정답: {answer + 1}");
 
         //generate choice tables
         for (int i = 0; i < 3; i++)
         {
             if (i == answer) //correct answer
             {
-                //-----------정답 테이블 선지로 복제
-                //// find answer rotation degree
-                //int correctAnswerIndex = tg.RotateAngle(stageType);
-                //TableController answerTable;
-                //try
-                //{
-                //    answerTable = Instantiate(answerArray[correctAnswerIndex], answerArray[correctAnswerIndex].transform.parent);
-
-                //    // Transform to choice Table
-                //    answerTable.transform.position = new Vector3(-1.3f+(1.3f*i), -3.3f, 0);
-                //    answerTable.transform.localScale = new Vector3(0.21f, 0.21f, 0);
-
-                //    // add in cloned object list
-                //    clonedObjects.Add(answerTable.gameObject);
-                //}
-                //catch (IndexOutOfRangeException)
-                //{
-                //    Debug.LogError($"Invalid correctAnswerIndex: {correctAnswerIndex}");
-                //}
-
-                //------------정답 테이블 선지로 이동
+                //정답 테이블 선지로 이동
                 int correctAnswerIndex = tg.RotateAngle(stageType);
 
                 TableController answerTable = answerArray[correctAnswerIndex];
@@ -232,9 +205,12 @@ public class QuestManager : MonoBehaviour
                 table[i].gameObject.SetActive(true);
                 do
                 {
-                    tg.TableGeneratePilot(table[i], stageType);
+                    tg.TableGeneratePilot(table[i], stageType, false);
                 }
-                while (table[i].CompareTable(tableEx)); // is it in answerArray
+                while ( table[i].CompareTable(tableEx) ||
+                        (i > 0 && answer != 0 && table[i].CompareTable(table[0])) ||
+                        (i == 2 && answer != 1 && table[i].CompareTable(table[1]))
+                       ); // 보기 및 이미 생성된 오답 선지와 같으면 다시 생성
             }
         }
 
@@ -268,25 +244,3 @@ public class QuestManager : MonoBehaviour
         pilotTest(); // Next Stage Call
     }
 }
-
-/* 각 셀 직접 세팅(Direct Setting for Each Cell)
-public class Stage
-{
-    public int[] exam { get; set; }
-    public int[] table1 { get; set; }
-    public int[] table2 { get; set; }
-    public int[] table3 { get; set; }
-
-    public int answer;
-
-    public Stage(int a, int[] e, int[] t1, int[] t2, int[] t3)
-    {
-        answer = a;
-
-        exam = e;
-        table1 = t1;
-        table2 = t2;
-        table3 = t3;
-    }
-}
-*/
