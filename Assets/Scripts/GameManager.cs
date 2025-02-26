@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
@@ -11,6 +12,14 @@ public class GameManager : MonoBehaviour
     public GameObject start;
     public GameObject game;
     public GameObject over;
+
+    //out data
+    private int totalStage = 0;
+    private int Score = 0;
+
+    //Over UI
+    public TextMeshProUGUI ScoreText;
+    public Image ScoreBar;
 
     //-------------Pilot Information-------------
     //input
@@ -111,29 +120,39 @@ public class GameManager : MonoBehaviour
     //결과 점수 보여주기
     public void StoreScore(StageScore ss)
     {
-        stageScore.Add(ss);
+        totalStage++;
+
+        if (ss.correct)
+            Score++;
+        //stageScore.Add(ss); //Pilot
     }
 
     private void displayResult()
     {
-        string str = "";
-        int countCorrect = 0;
+        ScoreText.text = (Score * 100 / totalStage).ToString() + "점";
+        ScoreBar.fillAmount = (float)Score / totalStage;
+        //Score.text = (correct * 100 / total).ToString() + "점";
+        //scoreBar.fillAmount = (float)correct / total;
 
-        foreach (StageScore ss in stageScore)
-        {
-            string correct = "오답";
-            if (ss.correct)
-            {
-                countCorrect++;
-                correct = "정답";
-            }
-            str += ss.name +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
-        }
+        //pilot
+        //string str = "";
+        //int countCorrect = 0;
 
-        result.text = str;
-        totalScore.text = "총 점수: " + countCorrect.ToString();
-        userInfo.text = "닉네임: " + nickName + "\n" +
-                        "성별: " + userGender + " / " + "나이: " + userAge;
+        //foreach (StageScore ss in stageScore)
+        //{
+        //    string correct = "오답";
+        //    if (ss.correct)
+        //    {
+        //        countCorrect++;
+        //        correct = "정답";
+        //    }
+        //    str += ss.name +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
+        //}
+
+        //result.text = str;
+        //totalScore.text = "총 점수: " + countCorrect.ToString();
+        //userInfo.text = "닉네임: " + nickName + "\n" +
+        //                "성별: " + userGender + " / " + "나이: " + userAge;
     }
 }
 
