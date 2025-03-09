@@ -1469,6 +1469,8 @@ MonoBehaviour:
   start: {fileID: 369437640}
   game: {fileID: 305146433}
   over: {fileID: 650321686}
+  ScoreText: {fileID: 0}
+  ScoreBar: {fileID: 0}
   inputWarning: {fileID: 865133587}
   inputNickName: {fileID: 496887603}
   inputAge: {fileID: 613302498}
@@ -2256,7 +2258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &369437641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4422,7 +4424,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 196625337}
         m_TargetAssemblyTypeName: QuestManager, Assembly-CSharp
-        m_MethodName: Game
+        m_MethodName: pilotTest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5463,7 +5465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &650321687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7121,7 +7123,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 940089180}
   m_OnClick:
     m_PersistentCalls:
