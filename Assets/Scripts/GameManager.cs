@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     //UI Animation
     public Animator information;
+    public Animator startAnim;
 
     //Scene UI
     public GameObject start;
@@ -105,6 +106,8 @@ public class GameManager : MonoBehaviour
             game.SetActive(true);
             over.SetActive(false);
         }
+
+        startAnim.SetBool("StageStart", true);
     }
 
     public void GameOver()

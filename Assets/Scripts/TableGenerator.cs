@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TableGenerator : MonoBehaviour
 {
-    public Sprite[] animalSprites; // 동물 Sprites들을 요소로 갖는 배열
+    //public Sprite[] animalSprites; // 동물 Sprites들을 요소로 갖는 배열
     public Sprite[] colorSprites; // 파일럿 용 색상 Sprites 배열
     public List<Sprite> selectedSprites = new List<Sprite>(); // 색상 배치를 위한 임시 배열
     Action[] assignActions; // 랜덤으로 동서남북 채우는 용
@@ -34,7 +34,7 @@ public class TableGenerator : MonoBehaviour
     public void Start()
     {
         // Asset/Resources/Sprites/Animals에 있는 png 파일 배열에 할당하기
-        animalSprites = Resources.LoadAll<Sprite>("Sprites/Animals");
+        //animalSprites = Resources.LoadAll<Sprite>("Sprites/Animals");
 
         // 파일럿 용 Unity 내 기본 제공 도형 스프라이트 로드 
         colorSprites = Resources.LoadAll<Sprite>("Sprites/Color");
@@ -50,13 +50,13 @@ public class TableGenerator : MonoBehaviour
         if (colorNum == 3 )
             spritePool.Add(null);
 
-        List<Sprite> tempSprites = new List<Sprite>(animalSprites);
-        for (int i = 0; i < colorNum; i++)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, tempSprites.Count);
-            spritePool.Add(tempSprites[randomIndex]);
-            tempSprites.RemoveAt(randomIndex);
-        }
+        //List<Sprite> tempSprites = new List<Sprite>(animalSprites);
+        //for (int i = 0; i < colorNum; i++)
+        //{
+        //    int randomIndex = UnityEngine.Random.Range(0, tempSprites.Count);
+        //    spritePool.Add(tempSprites[randomIndex]);
+        //    tempSprites.RemoveAt(randomIndex);
+        //}
     }
 
     public void TableGenerate(TableController table) // 테이블 세팅
