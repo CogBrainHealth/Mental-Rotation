@@ -16,17 +16,18 @@ public class QuestManager : MonoBehaviour
     //TestData
     public bool pilotFlag = true;
     public int[] pilotStageType; // stageType
-    List<int> shuffledStageTypes = new List<int>(); // Random stageType
+    public List<int> shuffledStageTypes = new List<int>(); // Random stageType
 
     //GameData
     public int totalStageNum;
+    
     public TextMeshProUGUI stageNumber; // StageNum UI
 
     private List<GameObject> clonedObjects = new List<GameObject>(); //Rotation Table of Ex (Answer List)
 
     private TableController answerTable;
-    //private int thisStageNum = 1; //Start at 1 stage
-    private int thisStageNum = 0;
+    
+    public int thisStageNum = 0;
     private int answer; 
     private float time = 0f;
 
@@ -137,7 +138,6 @@ public class QuestManager : MonoBehaviour
     public void choice(int n)
     {
         bool correct;
-        time = timer.timeLimit - timer.timeRemaining;
         Debug.Log("남은 시간:" + time);
 
         //all active false

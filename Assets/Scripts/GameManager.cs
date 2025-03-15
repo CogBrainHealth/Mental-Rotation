@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
     public GameObject over;
 
     //out data
-    private int totalStage = 0;
-    private int Score = 0;
+    //private int totalStage = 0; // 점수 평균 내기 위해?
+    private float Score = 0;
     public bool isGameOver = false;
 
     //Over UI
@@ -125,17 +125,15 @@ public class GameManager : MonoBehaviour
     //결과 점수 보여주기
     public void StoreScore(StageScore ss)
     {
-        totalStage++;
-
         if (ss.correct)
-            Score++;
-        //stageScore.Add(ss); //Pilot
+            Score += ss.stageScore;
+        Debug.Log(Score + "점");
     }
 
     private void displayResult()
     {
-        ScoreText.text = (Score * 100 / totalStage).ToString() + "점";
-        ScoreBar.fillAmount = (float)Score / totalStage;
+        ScoreText.text = (Score * 100 / 40).ToString() + "점";
+        ScoreBar.fillAmount = Score / 40;
         //Score.text = (correct * 100 / total).ToString() + "점";
         //scoreBar.fillAmount = (float)correct / total;
 
@@ -169,7 +167,7 @@ public class GameManager : MonoBehaviour
 
 public class StageScore
 {
-    static int totalScore = 0;
+    public float stageScore = 0;
 
     public int name;
     public float time;
@@ -177,8 +175,41 @@ public class StageScore
 
     public StageScore(int n, float t, bool correct)
     {
-        if(correct)
-            totalScore++;
+        float timeBonus;
+        float rotateBonus = 0;
+        
+        if (correct)
+        {
+            // 응답 시간
+            if (t < 5) timeBonus = 2;
+            else if (t < 10) timeBonus = 1;
+            else timeBonus = 0;
+
+            // 난이도
+            switch (QuestManager.Instance.shuffledStageTypes[QuestManager.Instance.thisStageNum - 1])
+            {
+                case 1:
+                case 4:
+                case 9:
+                    rotateBonus = 1;
+                    break;
+                
+                case 2:
+                case 5:
+                case 7:
+                case 10:
+                    rotateBonus = 2;
+                    break;
+                
+                case 3:
+                case 6:
+                case 8:
+                    rotateBonus = 3;
+                    break;
+            }
+
+            stageScore = timeBonus * rotateBonus;
+        }
 
         this.name = n;
         this.correct = correct;
