@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     //out data
     private int totalStage = 0;
     private int Score = 0;
+    public bool isGameOver = false;
 
     //Over UI
     public TextMeshProUGUI ScoreText;
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        isGameOver = true;
         start.SetActive(false);
         game.SetActive(false);
         over.SetActive(true);
@@ -157,7 +159,13 @@ public class GameManager : MonoBehaviour
         //userInfo.text = "닉네임: " + nickName + "\n" +
         //                "성별: " + userGender + " / " + "나이: " + userAge;
     }
+
+    public void Terminate()
+    {
+        Application.Quit();
+    }
 }
+
 
 public class StageScore
 {

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 345f138b1470d884882b5ead2cbf0efa
+guid: a277e63032a464ea689aeb253f970ea5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3826512771851390640
-    second: PrograssBar_0
+      213: 6839325380371446168
+    second: Ellipse 211_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 512
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -139,13 +139,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PrograssBar_0
+      name: Ellipse 211_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 270
-        height: 135
+        width: 1023
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0517d4168ee75eac0800000000000000
-      internalID: -3826512771851390640
+      spriteID: 8997a58723a2aee50800000000000000
+      internalID: 6839325380371446168
       vertices: []
       indices: 
       edges: []
@@ -174,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PrograssBar_0: -3826512771851390640
+      Ellipse 211_0: 6839325380371446168
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
