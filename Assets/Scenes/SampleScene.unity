@@ -1552,8 +1552,10 @@ MonoBehaviour:
   game: {fileID: 305146433}
   over: {fileID: 650321686}
   isGameOver: 0
-  ScoreText: {fileID: 419447013}
   ScoreBar: {fileID: 710704732}
+  ScoreText: {fileID: 419447013}
+  messageTitle: {fileID: 0}
+  message: {fileID: 0}
   inputWarning: {fileID: 865133587}
   inputNickName: {fileID: 496887603}
   inputAge: {fileID: 613302498}
@@ -3234,7 +3236,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ssd
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
   m_sharedMaterial: {fileID: -2934337445762602358, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
@@ -6324,7 +6326,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -600}
+  m_AnchoredPosition: {x: 0, y: -599.9998}
   m_SizeDelta: {x: 1784, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &689156930
