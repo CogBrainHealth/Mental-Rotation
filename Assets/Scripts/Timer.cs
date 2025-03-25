@@ -12,7 +12,7 @@ public class Timer : MonoBehaviour
     public float timeRemaining; // 남은 시간
     private bool isTimerRunning = false; // 타이머 상태 확인
 
-    void Start()
+    void Awake()
     {
         InitializeSlider(); // Slider 초기화
         // StartTimer(); // 게임 시작 후 타이머 시작
@@ -21,6 +21,7 @@ public class Timer : MonoBehaviour
     // Slider 초기화
     public void InitializeSlider()
     {
+        Debug.Log($"[Timer] InitializeSlider() called");
         timerSlider.maxValue = timeLimit; // 최대값을 제한 시간으로 설정
         timerSlider.value = timeLimit; // 시작 값은 최대값
         isTimerRunning = false;
@@ -29,13 +30,16 @@ public class Timer : MonoBehaviour
     // 타이머 시작
     public void StartTimer()
     {
+        Debug.Log($"StartTimer() called");
         timeRemaining = timeLimit;
         isTimerRunning = true;
+        //Debug.Log($"isTimerRunning: " + isTimerRunning);
     }
 
     // 매 프레임 남은 시간을 업데이트
     void Update()
     {
+        //Debug.Log($"isTimerRunning: " + isTimerRunning);
         if (isTimerRunning)
         {
             timeRemaining -= Time.deltaTime; // 시간 감소

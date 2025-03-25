@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
     }
 
     //결과 점수 보여주기
+    ///////////////////이거 고쳐야 됨///////////////////
     public void StoreScore(StageScore ss)
     {
         if (ss.correct)
@@ -134,7 +135,7 @@ public class GameManager : MonoBehaviour
 
     private void displayResult()
     {
-        ScoreText.text = (Score * 100 / 40).ToString() + "점";
+        ScoreText.text = (Score * 100 / 40).ToString();
         ScoreBar.fillAmount = Score / 40;
         //Score.text = (correct * 100 / total).ToString() + "점";
         //scoreBar.fillAmount = (float)correct / total;
@@ -158,8 +159,11 @@ public class GameManager : MonoBehaviour
         //totalScore.text = "총 점수: " + countCorrect.ToString();
         //userInfo.text = "닉네임: " + nickName + "\n" +
         //                "성별: " + userGender + " / " + "나이: " + userAge;
+
+        messageTitle.text = "";
+        message.text = "";
         
-        if (Score > 25.27)
+        if (Score > 96.0f)
         {
             messageTitle.text += "20대";
 
@@ -172,7 +176,7 @@ public class GameManager : MonoBehaviour
                             "- 3D 퍼즐이나 레고 조립처럼 입체적인 활동을 통해 더욱 향상시킬 수 있어요!";
         }
 
-        else if (Score > 24.09)
+        else if (Score > 80.0f)
         {
             messageTitle.text += "30대";
 
@@ -185,7 +189,7 @@ public class GameManager : MonoBehaviour
                              "- 도형을 그려보며 공간적인 변화를 머릿속으로 상상해보는 것이 효과적입니다.";
         }
 
-        else if (Score > 19.41)
+        else if (Score > 70.0f)
         {
             messageTitle.text += "40대";
 
@@ -198,7 +202,7 @@ public class GameManager : MonoBehaviour
                              "- 공간을 인지할 때 이 사물을 돌리면 어떤 모습이 될까 연상해보는 연습이 효과적입니다.";
         }
 
-        else if (Score > 13.16)
+        else if (Score > 60.0f)
         {
             messageTitle.text += "50대";
 
@@ -213,7 +217,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-        else if (Score > 8.84)
+        else if (Score > 50.0f)
         {
             messageTitle.text += "60대";
 
