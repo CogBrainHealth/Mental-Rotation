@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject start;
     public GameObject game;
     public GameObject over;
+    public GameObject gameStop;
+    private bool isPaused = false;
 
     //out data
     //private int totalStage = 0; // 점수 평균 내기 위해?
@@ -99,6 +101,7 @@ public class GameManager : MonoBehaviour
         start.SetActive(true);
         game.SetActive(false);
         over.SetActive(false);
+        gameStop.SetActive(false);
     }
 
     public void GameStart()
@@ -111,6 +114,22 @@ public class GameManager : MonoBehaviour
         }
 
         startAnim.SetBool("StageStart", true);
+    }
+    
+    public void OnEndButtonPressed()
+    {
+        if (!isPaused)
+        {
+            Time.timeScale = 0f;  // 게임 정지
+            isPaused = true;
+            Debug.Log("게임 일시정지됨");
+        }
+        else
+        {
+            Time.timeScale = 1f;  // 다시 시작
+            isPaused = false;
+            Debug.Log("게임 다시 시작됨");
+        }
     }
 
     public void GameOver()
@@ -137,28 +156,6 @@ public class GameManager : MonoBehaviour
     {
         ScoreText.text = (Score * 100 / 40).ToString();
         ScoreBar.fillAmount = Score / 40;
-        //Score.text = (correct * 100 / total).ToString() + "점";
-        //scoreBar.fillAmount = (float)correct / total;
-
-        //pilot
-        //string str = "";
-        //int countCorrect = 0;
-
-        //foreach (StageScore ss in stageScore)
-        //{
-        //    string correct = "오답";
-        //    if (ss.correct)
-        //    {
-        //        countCorrect++;
-        //        correct = "정답";
-        //    }
-        //    str += ss.name +"번 문제: " + ss.time.ToString("F3") + "초 / " + correct + "\n";
-        //}
-
-        //result.text = str;
-        //totalScore.text = "총 점수: " + countCorrect.ToString();
-        //userInfo.text = "닉네임: " + nickName + "\n" +
-        //                "성별: " + userGender + " / " + "나이: " + userAge;
 
         messageTitle.text = "";
         message.text = "";

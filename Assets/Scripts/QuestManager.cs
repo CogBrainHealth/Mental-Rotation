@@ -58,82 +58,7 @@ public class QuestManager : MonoBehaviour
     {
         time += Time.deltaTime;
     }
-
-    ////Game Setting
-    //public void Game()
-    //{
-    //    if (thisStageNum <= totalStageNum) //Quest Count Check
-    //    {
-    //        createStage();
-    //        thisStageNum++;
-    //    }
-    //    else
-    //    {
-    //        gm.GameOver();
-    //    }
-    //}
-
-    ////Game Setting
-    //private void createStage()
-    //{
-    //    //stageNumber UI
-    //    stageNumber.text = $"{thisStageNum} / {totalStageNum} ";
-
-    //    //Random Choice Stage Info
-    //    int spriteNum = Random.Range(3, 5);
-    //    tg.SettingSpritePool(spriteNum);
-
-    //    //create Ex Table
-    //    tg.TableGenerate(tableEx);
-
-    //    //select correct answer number
-    //    answer = Random.Range(0, 3);
-
-    //    //답안 테이블 구성
-    //    bool last = false;
-
-    //    for (int i = 0; i < 3; i++)
-    //    {
-    //        if (answer == i) //정답 테이블의 경우 
-    //        {
-    //            if (answerTable != null)
-    //                Destroy(answerTable.gameObject);
-    //            answerTable = Instantiate(tableEx, tableEx.transform.parent);
-    //            answerTable.RotateTable(Random.Range(0, 3));
-    //            answerTable.transform.position = new Vector3(-1.3f + (1.3f * i), -3.3f, 0);
-    //        }
-    //        else //오답 테이블의 경우
-    //        {
-    //            table[i].gameObject.SetActive(true);
-
-    //            if (!last)
-    //            {
-    //                last = true;
-
-    //                do
-    //                {
-    //                    tg.TableGenerate(table[i]);
-    //                }
-    //                while (table[i].CompareTable(tableEx)); // if it is in answerArray
-    //            }
-    //            else
-    //            {
-    //                last = false;
-
-    //                int j = (answer == 0) ? 1 : 0; //선행 오답의 인덱스
-    //                //Debug.Log($"answer: {answer} / 선행 오답: {j}");
-    //                do
-    //                {
-    //                    tg.TableGenerate(table[i]);
-    //                }
-    //                while (table[i].CompareTable(tableEx) || table[i].CompareTable(table[j])); // if it is in answerArray
-    //            }
-    //        }
-    //    }
-
-    //    time = 0f;
-    //}
-
+    
     //답안 선택
     public void choice(int n)
     {
@@ -204,6 +129,7 @@ public class QuestManager : MonoBehaviour
         {
             Destroy(obj);
         }
+
         clonedObjects.Clear();
 
         // stageNumber UI
@@ -249,11 +175,10 @@ public class QuestManager : MonoBehaviour
                 do
                 {
                     tg.TableGeneratePilot(table[i], stageType, false);
-                }
-                while (table[i].CompareTable(tableEx) ||
-                        (i > 0 && answer != 0 && table[i].CompareTable(table[0])) ||
-                        (i == 2 && answer != 1 && table[i].CompareTable(table[1]))
-                       ); // 보기 및 이미 생성된 오답 선지와 같으면 다시 생성
+                } while (table[i].CompareTable(tableEx) ||
+                         (i > 0 && answer != 0 && table[i].CompareTable(table[0])) ||
+                         (i == 2 && answer != 1 && table[i].CompareTable(table[1]))
+                        ); // 보기 및 이미 생성된 오답 선지와 같으면 다시 생성
             }
         }
 
