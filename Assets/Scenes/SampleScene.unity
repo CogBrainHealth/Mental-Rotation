@@ -9519,7 +9519,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 52458b839eaeb4a07811fc34058d6536, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
@@ -9527,8 +9527,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 130
-  m_fontSizeBase: 130
+  m_fontSize: 125
+  m_fontSizeBase: 125
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9539,7 +9539,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 30
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -9565,7 +9565,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 30, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -11898,11 +11898,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC704 \uD654\uBA74\uC5D0 \uC81C\uC2DC\uB41C \uB3C4\uD615\uC744 \uC62C\uBC14\uB974\uAC8C\n\uD68C\uC804\uD558\uC5EC
-    \uC815\uB2F5\uACFC \uC77C\uCE58\uD558\uB294 \uADF8\uB9BC\uC744 \n\uC544\uB798
-    \uBCF4\uAE30\uC5D0\uC11C \uC120\uD0DD\uD558\uC138\uC694!\n\n\uADF8\uB9BC \uB3CC\uB9AC\uAE30
-    \uAC8C\uC784\uC740 \uACF5\uAC04\uC9C0\uAC01\uB2A5\uB825\uACFC\n\uC2DC\uAC01\uC801
-    \uBCC0\uD658 \uB2A5\uB825\uC744 \uD5A5\uC0C1\uC2DC\uCF1C\uC694!"
+  m_text: "\uC704 \uD654\uBA74\uC5D0 \uC81C\uC2DC\uB41C \uB3C4\uD615\uC744 \uC62C\uBC14\uB974\uAC8C
+    \uD68C\uC804\uD558\uC5EC \uC815\uB2F5\uACFC \uC77C\uCE58\uD558\uB294 \uADF8\uB9BC\uC744
+    \uC544\uB798 \uBCF4\uAE30\uC5D0\uC11C \uC120\uD0DD\uD558\uC138\uC694.\n\n\uADF8\uB9BC
+    \uB3CC\uB9AC\uAE30 \uAC8C\uC784\uC740 \uACF5\uAC04\uC9C0\uAC01\uB2A5\uB825\uACFC
+    \uC2DC\uAC01\uC801 \uBCC0\uD658 \uB2A5\uB825\uC744 \uD5A5\uC0C1\uC2DC\uCF1C\uC694!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
   m_sharedMaterial: {fileID: -2934337445762602358, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
@@ -12531,7 +12531,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB9D0\uB871"
+  m_text: "20\uB300"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
   m_sharedMaterial: {fileID: -2934337445762602358, guid: 0915a93eb7404df498f5d84f87c523df, type: 2}
@@ -12558,8 +12558,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
-  m_fontSizeBase: 150
+  m_fontSize: 145
+  m_fontSizeBase: 145
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12596,7 +12596,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 40, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
