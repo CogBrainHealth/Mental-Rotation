@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
     public QuestManager questManager;
     public Slider timerSlider;
 
-    public float timeLimit = 5f;
+    public float timeLimit = 15.0f;
     public float timeRemaining; // 남은 시간
     private bool isTimerRunning = false; // 타이머 상태 확인
 
